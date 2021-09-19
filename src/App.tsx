@@ -1,10 +1,8 @@
-import { MenuIcon } from '@heroicons/react/solid'
-import React from 'react'
-import apple from './apple.svg'
-import background from './background.jpg'
-import google from './google.png'
-import logo from './logo.png'
-import placeholder from './iphone.png'
+import { TopMenu } from './components/top-menu'
+import apple from 'assets/apple.svg'
+import background from 'assets/background.jpg'
+import google from 'assets/google.png'
+import placeholder from 'assets/iphone.png'
 
 const googleLink =
 	'https://play.google.com/store/apps/details?id=com.golfsidekick'
@@ -18,37 +16,24 @@ function App() {
 				backgroundImage: `url(${background})`
 			}}
 		>
-			<div className={'flex justify-end items-center w-full bg-white h-20'}>
-				<div className={'flex-1 ml-9'}>
-					<img
-						src={logo}
-						alt={'Golf Sidekick Logo'}
-						className={'object-contain h-11'}
-					/>
-				</div>
-				<ul className={'mr-9'}>
-					<li className={'float-left m-1.5'}>
-						<a href={'/'}>About</a>
-					</li>
-					<li className={'float-left m-1.5'}>
-						<a href={'/'}>Contact</a>
-					</li>
-				</ul>
-				<a className={'mr-9'} href={'/'}>
-					<MenuIcon className={'h-8'} />
-				</a>
-			</div>
+			<TopMenu />
 			<div className={'container mx-auto px-9 my-9 lg:w-8/12 text-white'}>
 				<div className={'flex flex-row flex-wrap justify-center items-center'}>
 					<div className={'flex flex-col items-start md:w-6/12'}>
-						<h1 className={'text-5xl font-bold mb-6'}>Welcome Playa!</h1>
-						<h2 className={'text-lg font-thin mb-12 drop-shadow-md'}>
+						<h1 className={'text-6xl font-bold mb-6 text-shadow'}>
+							Welcome Playa!
+						</h1>
+						<h2 className={'text-lg font-normal mb-12 text-shadow'}>
 							Plan golf games with like minded strangers to build a community of
 							new friends.
 						</h2>
 
 						<div className={'flex flex-col'}>
-							<p className={'text-lg font-thin divider divide-gray-100'}>
+							<p
+								className={
+									'text-lg font-thin divider divide-gray-100 text-shadow'
+								}
+							>
 								Get the app
 							</p>
 							<div className={'flex flex-row justify-start items-end'}>
