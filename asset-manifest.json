@@ -1,27 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.b23ee38a.chunk.css",
-    "main.js": "/static/js/main.ecee61af.chunk.js",
-    "main.js.map": "/static/js/main.ecee61af.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.65845a92.js",
-    "runtime-main.js.map": "/static/js/runtime-main.65845a92.js.map",
-    "static/js/2.b6d9e0ec.chunk.js": "/static/js/2.b6d9e0ec.chunk.js",
-    "static/js/2.b6d9e0ec.chunk.js.map": "/static/js/2.b6d9e0ec.chunk.js.map",
-    "static/js/3.70721bc6.chunk.js": "/static/js/3.70721bc6.chunk.js",
-    "static/js/3.70721bc6.chunk.js.map": "/static/js/3.70721bc6.chunk.js.map",
+    "main.css": "/static/css/main.7fc7689f.chunk.css",
+    "main.js": "/static/js/main.dbc57154.chunk.js",
+    "main.js.map": "/static/js/main.dbc57154.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.58188042.js",
+    "runtime-main.js.map": "/static/js/runtime-main.58188042.js.map",
+    "static/js/2.3693a86b.chunk.js": "/static/js/2.3693a86b.chunk.js",
+    "static/js/2.3693a86b.chunk.js.map": "/static/js/2.3693a86b.chunk.js.map",
+    "static/js/3.705fb68e.chunk.js": "/static/js/3.705fb68e.chunk.js",
+    "static/js/3.705fb68e.chunk.js.map": "/static/js/3.705fb68e.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.b23ee38a.chunk.css.map": "/static/css/main.b23ee38a.chunk.css.map",
-    "static/js/2.b6d9e0ec.chunk.js.LICENSE.txt": "/static/js/2.b6d9e0ec.chunk.js.LICENSE.txt",
+    "static/css/main.7fc7689f.chunk.css.map": "/static/css/main.7fc7689f.chunk.css.map",
+    "static/js/2.3693a86b.chunk.js.LICENSE.txt": "/static/js/2.3693a86b.chunk.js.LICENSE.txt",
     "static/media/apple.8c4986ee.svg": "/static/media/apple.8c4986ee.svg",
-    "static/media/background.19775ba7.jpg": "/static/media/background.19775ba7.jpg",
+    "static/media/background.32e65984.jpg": "/static/media/background.32e65984.jpg",
     "static/media/google.f902960a.png": "/static/media/google.f902960a.png",
-    "static/media/iphone.6b425a6c.png": "/static/media/iphone.6b425a6c.png",
-    "static/media/logo.8c0372fd.png": "/static/media/logo.8c0372fd.png"
+    "static/media/iphone.57141dd7.png": "/static/media/iphone.57141dd7.png",
+    "static/media/logo.8c0372fd.png": "/static/media/logo.8c0372fd.png",
+    "static/media/screenshot-1.332a70a8.png": "/static/media/screenshot-1.332a70a8.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.65845a92.js",
-    "static/js/2.b6d9e0ec.chunk.js",
-    "static/css/main.b23ee38a.chunk.css",
-    "static/js/main.ecee61af.chunk.js"
+    "static/js/runtime-main.58188042.js",
+    "static/js/2.3693a86b.chunk.js",
+    "static/css/main.7fc7689f.chunk.css",
+    "static/js/main.dbc57154.chunk.js"
   ]
 }
