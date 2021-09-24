@@ -3,7 +3,7 @@ import React, { CSSProperties } from 'react'
 import { ScreenShot } from 'components/screen-shot'
 import { TopMenu } from 'components/top-menu'
 import apple from 'assets/apple.svg'
-import background from 'assets/background-2.jpg'
+import background from 'assets/background.jpg'
 import classNames from 'classnames'
 import google from 'assets/google.png'
 import screenshot1 from 'assets/screenshot-1.png'
@@ -21,7 +21,9 @@ const Body = ({
 }) => {
 	return (
 		<div
-			className={'h-screen overflow-x-auto bg-fixed bg-center bg-cover'}
+			className={
+				'h-screen overflow-x-auto bg-center bg-cover bg-gradient-to-r from-blue-800 via-blue-500 to-green-900'
+			}
 			style={style}
 		>
 			{children}
@@ -45,7 +47,7 @@ const Section = ({
 				'flex-wrap',
 				'justify-center',
 				'items-center',
-				'pt-9',
+				'py-9',
 				className
 			)}
 		>
@@ -68,44 +70,33 @@ const Break = ({ inverse = false }: { inverse?: boolean }) => {
 
 const LandingScreen = () => {
 	return (
-		<Body
-			style={{
-				background: `linear-gradient(150deg, rgba(0,80,151,0.6825105042016807) 0%, rgba(0,80,151,1) 35%, rgba(0,80,151,0.6993172268907564) 100%)`
-			}}
-		>
+		<Body>
 			<TopMenu />
 			<Section>
 				<div className={'flex flex-col items-center text-white'}>
 					<div className={'w-7/12 text-center'}>
-						<h1 className={'text-6xl font-bold mb-6 text-shadow'}>
+						<h1 className={'text-6xl lg:text-8xl font-black mb-6 text-shadow'}>
 							Welcome Playa!
 						</h1>
 						<h2 className={'text-lg font-normal mb-12 text-shadow'}>
 							Plan golf games with like minded strangers to build a community of
 							new friends.
 						</h2>
-						<div
-							className={
-								'flex flex-col bg-white bg-opacity-30 p-1 rounded-md text-center'
-							}
-						>
-							<p className={'text-lg font-thin'}>Get the app</p>
-							<div className={'flex flex-row justify-center items-end'}>
-								<a href={googleLink}>
-									<img
-										className={'object-contain max-h-16'}
-										src={google}
-										alt={'Google Play Store'}
-									/>
-								</a>
-								<a href={appleLink}>
-									<img
-										className={'object-contain max-h-16 p-3'}
-										src={apple}
-										alt={'Apple App Store'}
-									/>
-								</a>
-							</div>
+						<div className={'flex flex-row justify-center items-endmt-4'}>
+							<a href={googleLink}>
+								<img
+									className={'object-contain max-h-16'}
+									src={google}
+									alt={'Google Play Store'}
+								/>
+							</a>
+							<a href={appleLink}>
+								<img
+									className={'object-contain max-h-16 p-3'}
+									src={apple}
+									alt={'Apple App Store'}
+								/>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -124,10 +115,9 @@ const LandingScreen = () => {
 				</div>
 				<div className={'pt-9 lg:pt-0 flex flex-col items-center text-black'}>
 					<div className={'w-7/12 text-center'}>
-						<h1 className={'text-6xl font-bold mb-6'}>Welcome Playa!</h1>
+						<h1 className={'text-4xl font-bold mb-6'}>Game calendar</h1>
 						<h2 className={'text-lg font-normal mb-12'}>
-							Plan golf games with like minded strangers to build a community of
-							new friends.
+							Manage games via the game calendar.
 						</h2>
 					</div>
 				</div>
@@ -136,12 +126,9 @@ const LandingScreen = () => {
 			<Section>
 				<div className={'flex flex-col items-center text-white'}>
 					<div className={'w-7/12 text-center'}>
-						<h1 className={'text-6xl font-bold mb-6 text-shadow'}>
-							Welcome Playa!
-						</h1>
+						<h1 className={'text-4xl font-bold mb-6 text-shadow'}>Game chat</h1>
 						<h2 className={'text-lg font-normal mb-12 text-shadow'}>
-							Plan golf games with like minded strangers to build a community of
-							new friends.
+							Keep in touch and coordinate games via the game chat.
 						</h2>
 					</div>
 				</div>
@@ -151,6 +138,20 @@ const LandingScreen = () => {
 					</div>
 				</div>
 			</Section>
+			<Break />
+			<footer className="p-10 footer footer-center bg-white">
+				<div>
+					<span className="footer-title">Company</span>
+					<a className="link link-hover">About us</a>
+					<a className="link link-hover">Contact</a>
+				</div>
+				<div>
+					<span className="footer-title">Legal</span>
+					<a className="link link-hover">Terms of use</a>
+					<a className="link link-hover">Privacy policy</a>
+					<a className="link link-hover">Cookie policy</a>
+				</div>
+			</footer>
 		</Body>
 	)
 }
