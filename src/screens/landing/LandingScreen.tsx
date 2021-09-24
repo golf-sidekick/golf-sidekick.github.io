@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react'
 
+import { Body } from 'components/body'
 import { ScreenShot } from 'components/screen-shot'
 import { TopMenu } from 'components/top-menu'
 import apple from 'assets/apple.svg'
@@ -10,25 +11,6 @@ import screenshot1 from 'assets/screenshot-1.png'
 const googleLink =
 	'https://play.google.com/store/apps/details?id=com.golfsidekick'
 const appleLink = 'https://testflight.apple.com/join/t6ys2guf'
-
-const Body = ({
-	children,
-	style = {}
-}: {
-	children: React.ReactNode | React.ReactNodeArray
-	style?: CSSProperties
-}) => {
-	return (
-		<div
-			className={
-				'h-screen overflow-x-auto bg-center bg-cover bg-gradient-to-r from-blue-800 via-blue-500 to-green-900'
-			}
-			style={style}
-		>
-			{children}
-		</div>
-	)
-}
 
 const Section = ({
 	children,
