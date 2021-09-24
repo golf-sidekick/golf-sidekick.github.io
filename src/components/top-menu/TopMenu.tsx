@@ -1,7 +1,4 @@
-import React from 'react'
-import { TopMenuProps } from './TopMenuProps'
-
-const TopMenu = ({}: TopMenuProps) => {
+const TopMenu = () => {
 	return (
 		<div className={'flex w-full h-20 items-center text-white'}>
 			<div className={'container mx-auto flex justify-end items-center'}>

@@ -1,6 +1,5 @@
-import React, { CSSProperties } from 'react'
-
 import { Body } from 'components/body'
+import React from 'react'
 import { ScreenShot } from 'components/screen-shot'
 import { TopMenu } from 'components/top-menu'
 import apple from 'assets/apple.svg'

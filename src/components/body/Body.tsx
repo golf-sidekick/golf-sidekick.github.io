@@ -3,9 +3,11 @@ import classNames from 'classnames'
 
 const Body = ({
 	children,
+	className,
 	style = {}
 }: {
 	children: React.ReactNode | React.ReactNodeArray
+	className?: string
 	style?: CSSProperties
 }) => {
 	return (
@@ -15,7 +17,8 @@ const Body = ({
 				'overflow-x-auto',
 				'bg-center',
 				'bg-cover',
-				'bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300'
+				'bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300',
+				className
 			)}
 			style={style}
 		>
