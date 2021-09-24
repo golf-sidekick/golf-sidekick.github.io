@@ -3,7 +3,6 @@ import React, { CSSProperties } from 'react'
 import { ScreenShot } from 'components/screen-shot'
 import { TopMenu } from 'components/top-menu'
 import apple from 'assets/apple.svg'
-import background from 'assets/background.jpg'
 import classNames from 'classnames'
 import google from 'assets/google.png'
 import screenshot1 from 'assets/screenshot-1.png'
@@ -142,14 +141,21 @@ const LandingScreen = () => {
 			<footer className="p-10 footer footer-center bg-white">
 				<div>
 					<span className="footer-title">Company</span>
-					<a className="link link-hover">About us</a>
-					<a className="link link-hover">Contact</a>
+					<a className="link link-hover" href={'/about'}>
+						About us
+					</a>
+					<a className="link link-hover" href={'/contact'}>
+						Contact
+					</a>
 				</div>
 				<div>
 					<span className="footer-title">Legal</span>
-					<a className="link link-hover">Terms of use</a>
-					<a className="link link-hover">Privacy policy</a>
-					<a className="link link-hover">Cookie policy</a>
+					<a className="link link-hover" href={'eula.html'}>
+						End-User License Agreement
+					</a>
+					<a className="link link-hover" href={'privacy-policy.html'}>
+						Privacy policy
+					</a>
 				</div>
 			</footer>
 		</Body>
