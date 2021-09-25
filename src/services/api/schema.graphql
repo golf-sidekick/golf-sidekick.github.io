@@ -1,887 +1,900 @@
 schema {
-  query: Query
-  mutation: Mutation
+	query: Query
+	mutation: Mutation
 }
 
 interface IFeedEntry {
-  id: Uuid!
-  timestamp: DateTime!
+	id: Uuid!
+	timestamp: DateTime!
 }
 
 type Chat {
-  token: String!
+	token: String!
 }
 
 type Community {
-  admins: [Player]
-  id: Uuid!
-  initials: String
-  isMember: Boolean!
-  memberCount: Long!
-  members(
-    continuationToken: String
-    limit: Int! = 64
-  ): PaginatedResultsOfCommunityMember
-  name: String!
-  postCount: Int!
-  posts(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPostOfCommunity
-  profileImageRef: ImageRef
+	admins: [Player]
+	id: Uuid!
+	initials: String
+	isMember: Boolean!
+	memberCount: Long!
+	members(
+		continuationToken: String
+		limit: Int! = 64
+	): PaginatedResultsOfCommunityMember
+	name: String!
+	postCount: Int!
+	posts(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPostOfCommunity
+	profileImageRef: ImageRef
 }
 
 type CommunityMember {
-  id: Uuid!
-  isAdmin: Boolean!
-  joinedOn: DateTime!
-  player: Player
+	id: Uuid!
+	isAdmin: Boolean!
+	joinedOn: DateTime!
+	player: Player
 }
 
 type CommunityPostCommentReactionFeedEntry implements IFeedEntry {
-  comment: PostCommentOfCommunity
-  community: Community
-  id: Uuid!
-  player: Player
-  timestamp: DateTime!
+	comment: PostCommentOfCommunity
+	community: Community
+	id: Uuid!
+	player: Player
+	timestamp: DateTime!
 }
 
 type CommunityPostFeedEntry implements IFeedEntry {
-  community: Community
-  id: Uuid!
-  post: PostOfCommunity
-  timestamp: DateTime!
+	community: Community
+	id: Uuid!
+	post: PostOfCommunity
+	timestamp: DateTime!
 }
 
 type CommunityPostReactionFeedEntry implements IFeedEntry {
-  community: Community
-  id: Uuid!
-  player: Player
-  post: PostOfCommunity
-  timestamp: DateTime!
+	community: Community
+	id: Uuid!
+	player: Player
+	post: PostOfCommunity
+	timestamp: DateTime!
 }
 
 type Coordinates {
-  lat: Decimal!
-  lon: Decimal!
+	lat: Decimal!
+	lon: Decimal!
 }
 
 type Course {
-  description: String!
-  emailAddress: String!
-  id: Uuid!
-  name: String!
-  physicalAddress: PhysicalAddress!
-  reactions: [Reaction]
-  telephoneNumber: TelephoneNumber!
-  timezone: Timezone
+	description: String!
+	emailAddress: String!
+	id: Uuid!
+	name: String!
+	physicalAddress: PhysicalAddress!
+	reactions: [Reaction]
+	telephoneNumber: TelephoneNumber!
+	timezone: Timezone
 }
 
 type Game {
-  communities: [Community]
-  course: Course
-  gameType: GameType!
-  holes: Holes!
-  host: Player
-  id: Uuid!
-  invitations: [GameInvitation] @authorize(policy: "IsSelf", roles: [])
-  isCancelled: Boolean!
-  isHost: Boolean!
-  isPlaying: Boolean!
-  myStatus: GamePlayerStatus
-  numberOfPlayers: Int!
-  playerCount: Int!
-  players: [GamePlayer]
-  reactions: [Reaction]
-  teeTime: TeeTime!
+	communities: [Community]
+	course: Course
+	gameType: GameType!
+	holes: Holes!
+	host: Player
+	id: Uuid!
+	invitations: [GameInvitation] @authorize(policy: "IsSelf", roles: [])
+	isCancelled: Boolean!
+	isHost: Boolean!
+	isPlaying: Boolean!
+	myStatus: GamePlayerStatus
+	numberOfPlayers: Int!
+	playerCount: Int!
+	players: [GamePlayer]
+	reactions: [Reaction]
+	teeTime: TeeTime!
 }
 
 type GameFeedEntry implements IFeedEntry {
-  game: Game
-  id: Uuid!
-  player: Player
-  timestamp: DateTime!
+	game: Game
+	id: Uuid!
+	player: Player
+	timestamp: DateTime!
 }
 
 type GameInvitation {
-  createdOn: DateTime!
-  player: Player
+	createdOn: DateTime!
+	player: Player
 }
 
 type GamePlayer {
-  id: Uuid!
-  isHost: Boolean!
-  joinedOn: DateTime!
-  player: Player
-  status: GamePlayerStatus!
+	id: Uuid!
+	isHost: Boolean!
+	joinedOn: DateTime!
+	player: Player
+	status: GamePlayerStatus!
 }
 
 type ImageRef {
-  height: Int!
-  ref: String
-  width: Int!
+	height: Int!
+	ref: String
+	width: Int!
 }
 
 type Mutation {
-  acceptGameInvitation(input: AcceptGameInvitationInput): Player
-    @authorize(roles: [])
-  cancelGame(input: CancelGameInput): Game
-    @authorize(policy: "IsGameHost", roles: [])
-  cancelGameInvitation(input: CancelGameInvitationInput): Game
-    @authorize(policy: "IsGameHost", roles: [])
-  cancelGameTeeTime(input: CancelGameTeeTimeInput): Game
-    @authorize(policy: "IsGameHost", roles: [])
-  changeGameHost(input: ChangeGameHostInput): Game
-    @authorize(policy: "IsGameHost", roles: [])
-  confirmGamePlayer(input: ConfirmGamePlayerInput): Game @authorize(roles: [])
-  confirmGameTeeTime(input: ConfirmGameTeeTimeInput): Game
-    @authorize(policy: "IsGameHost", roles: [])
-  createCommunity(input: CreateCommunityInput): Community
-    @authorize(policy: "Permission:CreateCommunity", roles: [])
-  createCommunityCommentReaction(
-    input: CreateCommunityCommentReactionInput
-  ): PostCommentOfCommunity @authorize(roles: [])
-  createCommunityPost(input: CreateCommunityPostInput): PostOfCommunity
-    @authorize(policy: "Permission:CreatePost", roles: [])
-  createCommunityPostComment(
-    input: CreateCommunityPostCommentInput
-  ): PostOfCommunity
-    @authorize(policy: "Permission:CreatePostComment", roles: [])
-  createCommunityPostCommentReply(
-    input: CreateCommunityPostCommentReplyInput
-  ): PostCommentOfCommunity
-    @authorize(policy: "Permission:CreatePostComment", roles: [])
-  createCommunityPostReaction(
-    input: CreateCommunityPostReactionInput
-  ): PostOfCommunity @authorize(roles: [])
-  createCourse(input: UpsertCourseInput): Course @authorize(roles: [])
-  createCourseReaction(input: CreateCourseReactionInput): Course
-    @authorize(roles: [])
-  createGame(input: CreateGameInput): Game
-    @authorize(policy: "Permission:CreateGame", roles: [])
-  createGameInvitation(input: CreateGameInvitationInput): Game
-    @authorize(policy: "IsGameHost", roles: [])
-  createGameReaction(input: CreateGameReactionInput): Game @authorize(roles: [])
-  createPlayerCommentReaction(
-    input: CreatePlayerCommentReactionInput
-  ): PostCommentOfPlayer @authorize(roles: [])
-  createPlayerPost(input: CreatePlayerPostInput): PostOfPlayer
-    @authorize(policy: "Permission:CreatePost", roles: [])
-  createPlayerPostComment(input: CreatePlayerPostCommentInput): PostOfPlayer
-    @authorize(policy: "Permission:CreatePostComment", roles: [])
-  createPlayerPostCommentReply(
-    input: CreatePlayerPostCommentReplyInput
-  ): PostCommentOfPlayer
-    @authorize(policy: "Permission:CreatePostComment", roles: [])
-  createPlayerPostReaction(input: CreatePlayerPostReactionInput): PostOfPlayer
-    @authorize(roles: [])
-  declineGameInvitation(input: DeclineGameInvitationInput): Player
-    @authorize(roles: [])
-  declineGamePlayer(input: DeclineGamePlayerInput): Game @authorize(roles: [])
-  discardPlayerGame(input: DiscardPlayerGameInput): Player @authorize(roles: [])
-  followPlayer(input: FollowPlayerInput): Player @authorize(roles: [])
-  joinCommunity(input: JoinCommunityInput): Player @authorize(roles: [])
-  joinGame(input: JoinGameInput): Game @authorize(roles: [])
-  leaveCommunity(input: LeaveCommunityInput): Player @authorize(roles: [])
-  leaveGame(input: LeaveGameInput): Game @authorize(roles: [])
-  registerPlayer(input: RegisterPlayerInput): Player @authorize(roles: [])
-  registerPlayerFcmToken(input: RegisterPlayerFcmTokenInput): Player
-    @authorize(roles: [])
-  removeCourseReaction(input: RemoveReactionInput): Course @authorize(roles: [])
-  removeGameReaction(input: RemoveReactionInput): Game @authorize(roles: [])
-  reportAbuse(input: ReportAbuseInput): Player @authorize(roles: [])
-  setCommunityAdmins(input: SetCommunityAdminsInput): Community
-    @authorize(policy: "IsCommunityAdmin", roles: [])
-  setCommunityProfileImageRef(
-    input: SetCommunityProfileImageRefInput
-  ): Community @authorize(roles: [])
-  setNotificationPreferences(input: SetNotificationPreferencesInput): Player
-    @authorize(roles: [])
-  setPlayerProfileImageRef(input: ImageRefInput): Player @authorize(roles: [])
-  unfollowPlayer(input: UnfollowPlayerInput): Player @authorize(roles: [])
-  updateCommunity(input: UpdateCommunityInput): Community
-    @authorize(policy: "IsCommunityAdmin", roles: [])
-  updateGame(input: UpdateGameInput): Game
-    @authorize(policy: "IsGameHost", roles: [])
-  updatePlayer(input: UpdatePlayerInput): Player @authorize(roles: [])
-  updatePlayerCoursePreferences(
-    input: UpdatePlayerCoursePreferencesInput
-  ): Player @authorize(roles: [])
-  updatePlayerGamePreferences(input: UpdatePlayerGamePreferencesInput): Player
-    @authorize(roles: [])
-  updatePlayerHandicap(input: UpdatePlayerHandicapInput): Player
-    @authorize(roles: [])
-  updatePlayerPreferences(input: UpdatePlayerPreferencesInput): Player
-    @authorize(roles: [])
+	acceptGameInvitation(input: AcceptGameInvitationInput): Player
+		@authorize(roles: [])
+	cancelGame(input: CancelGameInput): Game
+		@authorize(policy: "IsGameHost", roles: [])
+	cancelGameInvitation(input: CancelGameInvitationInput): Game
+		@authorize(policy: "IsGameHost", roles: [])
+	cancelGameTeeTime(input: CancelGameTeeTimeInput): Game
+		@authorize(policy: "IsGameHost", roles: [])
+	changeGameHost(input: ChangeGameHostInput): Game
+		@authorize(policy: "IsGameHost", roles: [])
+	confirmGamePlayer(input: ConfirmGamePlayerInput): Game @authorize(roles: [])
+	confirmGameTeeTime(input: ConfirmGameTeeTimeInput): Game
+		@authorize(policy: "IsGameHost", roles: [])
+	createCommunity(input: CreateCommunityInput): Community
+		@authorize(policy: "Permission:CreateCommunity", roles: [])
+	createCommunityCommentReaction(
+		input: CreateCommunityCommentReactionInput
+	): PostCommentOfCommunity @authorize(roles: [])
+	createCommunityPost(input: CreateCommunityPostInput): PostOfCommunity
+		@authorize(policy: "Permission:CreatePost", roles: [])
+	createCommunityPostComment(
+		input: CreateCommunityPostCommentInput
+	): PostOfCommunity
+		@authorize(policy: "Permission:CreatePostComment", roles: [])
+	createCommunityPostCommentReply(
+		input: CreateCommunityPostCommentReplyInput
+	): PostCommentOfCommunity
+		@authorize(policy: "Permission:CreatePostComment", roles: [])
+	createCommunityPostReaction(
+		input: CreateCommunityPostReactionInput
+	): PostOfCommunity @authorize(roles: [])
+	createCourse(input: CreateCourseInput): Course
+		@authorize(policy: "Permission:UpsertCourse", roles: [])
+	createCourseReaction(input: CreateCourseReactionInput): Course
+		@authorize(roles: [])
+	createGame(input: CreateGameInput): Game
+		@authorize(policy: "Permission:CreateGame", roles: [])
+	createGameInvitation(input: CreateGameInvitationInput): Game
+		@authorize(policy: "IsGameHost", roles: [])
+	createGameReaction(input: CreateGameReactionInput): Game @authorize(roles: [])
+	createPlayerCommentReaction(
+		input: CreatePlayerCommentReactionInput
+	): PostCommentOfPlayer @authorize(roles: [])
+	createPlayerPost(input: CreatePlayerPostInput): PostOfPlayer
+		@authorize(policy: "Permission:CreatePost", roles: [])
+	createPlayerPostComment(input: CreatePlayerPostCommentInput): PostOfPlayer
+		@authorize(policy: "Permission:CreatePostComment", roles: [])
+	createPlayerPostCommentReply(
+		input: CreatePlayerPostCommentReplyInput
+	): PostCommentOfPlayer
+		@authorize(policy: "Permission:CreatePostComment", roles: [])
+	createPlayerPostReaction(input: CreatePlayerPostReactionInput): PostOfPlayer
+		@authorize(roles: [])
+	declineGameInvitation(input: DeclineGameInvitationInput): Player
+		@authorize(roles: [])
+	declineGamePlayer(input: DeclineGamePlayerInput): Game @authorize(roles: [])
+	discardPlayerGame(input: DiscardPlayerGameInput): Player @authorize(roles: [])
+	followPlayer(input: FollowPlayerInput): Player @authorize(roles: [])
+	joinCommunity(input: JoinCommunityInput): Player @authorize(roles: [])
+	joinGame(input: JoinGameInput): Game @authorize(roles: [])
+	leaveCommunity(input: LeaveCommunityInput): Player @authorize(roles: [])
+	leaveGame(input: LeaveGameInput): Game @authorize(roles: [])
+	registerPlayer(input: RegisterPlayerInput): Player @authorize(roles: [])
+	registerPlayerFcmToken(input: RegisterPlayerFcmTokenInput): Player
+		@authorize(roles: [])
+	removeCourseReaction(input: RemoveReactionInput): Course @authorize(roles: [])
+	removeGameReaction(input: RemoveReactionInput): Game @authorize(roles: [])
+	reportAbuse(input: ReportAbuseInput): Player @authorize(roles: [])
+	setCommunityAdmins(input: SetCommunityAdminsInput): Community
+		@authorize(policy: "IsCommunityAdmin", roles: [])
+	setCommunityProfileImageRef(
+		input: SetCommunityProfileImageRefInput
+	): Community @authorize(roles: [])
+	setNotificationPreferences(input: SetNotificationPreferencesInput): Player
+		@authorize(roles: [])
+	setPlayerProfileImageRef(input: ImageRefInput): Player @authorize(roles: [])
+	unfollowPlayer(input: UnfollowPlayerInput): Player @authorize(roles: [])
+	updateCommunity(input: UpdateCommunityInput): Community
+		@authorize(policy: "IsCommunityAdmin", roles: [])
+	updateCourse(input: UpdateCourseInput): Course
+		@authorize(policy: "Permission:UpsertCourse", roles: [])
+	updateGame(input: UpdateGameInput): Game
+		@authorize(policy: "IsGameHost", roles: [])
+	updatePlayer(input: UpdatePlayerInput): Player @authorize(roles: [])
+	updatePlayerCoursePreferences(
+		input: UpdatePlayerCoursePreferencesInput
+	): Player @authorize(roles: [])
+	updatePlayerGamePreferences(input: UpdatePlayerGamePreferencesInput): Player
+		@authorize(roles: [])
+	updatePlayerHandicap(input: UpdatePlayerHandicapInput): Player
+		@authorize(roles: [])
+	updatePlayerPreferences(input: UpdatePlayerPreferencesInput): Player
+		@authorize(roles: [])
 }
 
 type NotificationPreference {
-  communicationMethods: [CommunicationMethod!]!
-  eventType: String!
+	communicationMethods: [CommunicationMethod!]!
+	eventType: String!
 }
 
 type PaginatedResultsOfCommunity {
-  continuationToken: String
-  data: [Community!]!
-  total: Long
+	continuationToken: String
+	data: [Community!]!
+	total: Long
 }
 
 type PaginatedResultsOfCommunityMember {
-  continuationToken: String
-  data: [CommunityMember!]!
-  total: Long
+	continuationToken: String
+	data: [CommunityMember!]!
+	total: Long
 }
 
 type PaginatedResultsOfCourse {
-  continuationToken: String
-  data: [Course!]!
-  total: Long
+	continuationToken: String
+	data: [Course!]!
+	total: Long
 }
 
 type PaginatedResultsOfGame {
-  continuationToken: String
-  data: [Game!]!
-  total: Long
+	continuationToken: String
+	data: [Game!]!
+	total: Long
 }
 
 type PaginatedResultsOfIFeedEntry {
-  continuationToken: String
-  data: [IFeedEntry!]!
-  total: Long
+	continuationToken: String
+	data: [IFeedEntry!]!
+	total: Long
 }
 
 type PaginatedResultsOfPlayer {
-  continuationToken: String
-  data: [Player!]!
-  total: Long
+	continuationToken: String
+	data: [Player!]!
+	total: Long
 }
 
 type PaginatedResultsOfPostCommentOfCommunity {
-  continuationToken: String
-  data: [PostCommentOfCommunity!]!
-  total: Long
+	continuationToken: String
+	data: [PostCommentOfCommunity!]!
+	total: Long
 }
 
 type PaginatedResultsOfPostCommentOfPlayer {
-  continuationToken: String
-  data: [PostCommentOfPlayer!]!
-  total: Long
+	continuationToken: String
+	data: [PostCommentOfPlayer!]!
+	total: Long
 }
 
 type PaginatedResultsOfPostOfCommunity {
-  continuationToken: String
-  data: [PostOfCommunity!]!
-  total: Long
+	continuationToken: String
+	data: [PostOfCommunity!]!
+	total: Long
 }
 
 type PaginatedResultsOfPostOfPlayer {
-  continuationToken: String
-  data: [PostOfPlayer!]!
-  total: Long
+	continuationToken: String
+	data: [PostOfPlayer!]!
+	total: Long
 }
 
 type PaginatedResultsOfReactionDetail {
-  continuationToken: String
-  data: [ReactionDetail!]!
-  total: Long
+	continuationToken: String
+	data: [ReactionDetail!]!
+	total: Long
 }
 
 type PhysicalAddress {
-  coordinates: Coordinates!
-  countryCode: String!
-  postCode: String!
-  province: String!
-  street: String!
-  streetNumber: String!
-  suburb: String!
+	coordinates: Coordinates!
+	countryCode: String!
+	postCode: String!
+	province: String!
+	street: String!
+	streetNumber: String!
+	suburb: String!
 }
 
 type Player {
-  communities: [Community] @authorize(policy: "IsSelf", roles: [])
-  countryCode: String
-  followers(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPlayer
-  followersCount: Int!
-  following(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPlayer
-  followingCount: Int!
-  gameInvitations: [PlayerGameInvitation]
-    @authorize(policy: "IsSelf", roles: [])
-  games(
-    continuationToken: String
-    input: GamesSearchInput
-    limit: Int! = 20
-  ): PaginatedResultsOfGame @authorize(policy: "IsSelf", roles: [])
-  handicap: Int!
-  id: Uuid!
-  initials: String
-  isFollower: Boolean!
-  isFollowing: Boolean!
-  isRegistered: Boolean! @authorize(policy: "IsSelf", roles: [])
-  isSelf: Boolean!
-  name: String
-  notificationPreferences: [NotificationPreference]
-    @authorize(policy: "IsSelf", roles: [])
-  permissions: [Permission!] @authorize(policy: "IsSelf", roles: [])
-  playerTypes: [PlayerType!]! @authorize(policy: "IsSelf", roles: [])
-  postCount: Int!
-  posts(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPostOfPlayer
-  preferredCourses: [Course] @authorize(policy: "IsSelf", roles: [])
-  preferredGameTypes: [GameType!]! @authorize(policy: "IsSelf", roles: [])
-  preferredPlayerTypes: [PlayerType!]! @authorize(policy: "IsSelf", roles: [])
-  profileImageRef: ImageRef
+	communities: [Community] @authorize(policy: "IsSelf", roles: [])
+	countryCode: String
+	followers(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPlayer
+	followersCount: Int!
+	following(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPlayer
+	followingCount: Int!
+	gameInvitations: [PlayerGameInvitation]
+		@authorize(policy: "IsSelf", roles: [])
+	games(
+		continuationToken: String
+		input: GamesSearchInput
+		limit: Int! = 20
+	): PaginatedResultsOfGame @authorize(policy: "IsSelf", roles: [])
+	handicap: Int!
+	id: Uuid!
+	initials: String
+	isFollower: Boolean!
+	isFollowing: Boolean!
+	isRegistered: Boolean! @authorize(policy: "IsSelf", roles: [])
+	isSelf: Boolean!
+	name: String
+	notificationPreferences: [NotificationPreference]
+		@authorize(policy: "IsSelf", roles: [])
+	permissions: [Permission!] @authorize(policy: "IsSelf", roles: [])
+	playerTypes: [PlayerType!]! @authorize(policy: "IsSelf", roles: [])
+	postCount: Int!
+	posts(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPostOfPlayer
+	preferredCourses: [Course] @authorize(policy: "IsSelf", roles: [])
+	preferredGameTypes: [GameType!]! @authorize(policy: "IsSelf", roles: [])
+	preferredPlayerTypes: [PlayerType!]! @authorize(policy: "IsSelf", roles: [])
+	profileImageRef: ImageRef
 }
 
 type PlayerGameInvitation {
-  createdBy: Player
-  createdOn: DateTime!
-  game: Game
+	createdBy: Player
+	createdOn: DateTime!
+	game: Game
 }
 
 type PlayerPostCommentReactionFeedEntry implements IFeedEntry {
-  comment: PostCommentOfPlayer
-  id: Uuid!
-  player: Player
-  timestamp: DateTime!
+	comment: PostCommentOfPlayer
+	id: Uuid!
+	player: Player
+	timestamp: DateTime!
 }
 
 type PlayerPostFeedEntry implements IFeedEntry {
-  id: Uuid!
-  player: Player
-  post: PostOfPlayer
-  timestamp: DateTime!
+	id: Uuid!
+	player: Player
+	post: PostOfPlayer
+	timestamp: DateTime!
 }
 
 type PlayerPostReactionFeedEntry implements IFeedEntry {
-  id: Uuid!
-  player: Player
-  post: PostOfPlayer
-  timestamp: DateTime!
+	id: Uuid!
+	player: Player
+	post: PostOfPlayer
+	timestamp: DateTime!
 }
 
 type PostCommentOfCommunity {
-  author: Player @authorize(roles: [])
-  body: String
-  id: Uuid!
-  imageRefs: [ImageRef]
-  partitionKey: String
-  reactionDetails(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfReactionDetail
-  reactions: [Reaction]
-  replies(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPostCommentOfCommunity
-  replyCount: Int!
-  timestamp: DateTime!
+	author: Player @authorize(roles: [])
+	body: String
+	id: Uuid!
+	imageRefs: [ImageRef]
+	partitionKey: String
+	reactionDetails(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfReactionDetail
+	reactions: [Reaction]
+	replies(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPostCommentOfCommunity
+	replyCount: Int!
+	timestamp: DateTime!
 }
 
 type PostCommentOfPlayer {
-  author: Player @authorize(roles: [])
-  body: String
-  id: Uuid!
-  imageRefs: [ImageRef]
-  partitionKey: String
-  reactionDetails(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfReactionDetail
-  reactions: [Reaction]
-  replies(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPostCommentOfPlayer
-  replyCount: Int!
-  timestamp: DateTime!
+	author: Player @authorize(roles: [])
+	body: String
+	id: Uuid!
+	imageRefs: [ImageRef]
+	partitionKey: String
+	reactionDetails(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfReactionDetail
+	reactions: [Reaction]
+	replies(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPostCommentOfPlayer
+	replyCount: Int!
+	timestamp: DateTime!
 }
 
 type PostOfCommunity {
-  author: Community @authorize(roles: [])
-  body: String
-  commentCount: Int!
-  comments(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPostCommentOfCommunity
-  id: Uuid!
-  imageRefs: [ImageRef]
-  partitionKey: String
-  reactionDetails(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfReactionDetail
-  reactions: [Reaction]
-  timestamp: DateTime!
+	author: Community @authorize(roles: [])
+	body: String
+	commentCount: Int!
+	comments(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPostCommentOfCommunity
+	id: Uuid!
+	imageRefs: [ImageRef]
+	partitionKey: String
+	reactionDetails(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfReactionDetail
+	reactions: [Reaction]
+	timestamp: DateTime!
 }
 
 type PostOfPlayer {
-  author: Player @authorize(roles: [])
-  body: String
-  commentCount: Int!
-  comments(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfPostCommentOfPlayer
-  id: Uuid!
-  imageRefs: [ImageRef]
-  partitionKey: String
-  reactionDetails(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfReactionDetail
-  reactions: [Reaction]
-  timestamp: DateTime!
+	author: Player @authorize(roles: [])
+	body: String
+	commentCount: Int!
+	comments(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfPostCommentOfPlayer
+	id: Uuid!
+	imageRefs: [ImageRef]
+	partitionKey: String
+	reactionDetails(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfReactionDetail
+	reactions: [Reaction]
+	timestamp: DateTime!
 }
 
 type Query @authorize(roles: []) {
-  agenda(input: AgendaInput): [Game] @authorize(roles: [])
-  chat(platform: String): Chat @authorize(roles: [])
-  communities(
-    continuationToken: String
-    limit: Int! = 64
-    term: String
-  ): PaginatedResultsOfCommunity @authorize(roles: [])
-  community(communityId: Uuid!): Community @authorize(roles: [])
-  communityPost(communityId: Uuid!, postId: Uuid!): PostOfCommunity
-    @authorize(roles: [])
-  communityPostComment(
-    commentId: Uuid!
-    communityId: Uuid!
-  ): PostCommentOfCommunity @authorize(roles: [])
-  course(courseId: Uuid!): Course @authorize(roles: [])
-  courses(
-    continuationToken: String
-    limit: Int! = 64
-    term: String
-  ): PaginatedResultsOfCourse @authorize(roles: [])
-  feed(
-    continuationToken: String
-    limit: Int! = 50
-  ): PaginatedResultsOfIFeedEntry @authorize(roles: [])
-  game(gameId: Uuid!): Game @authorize(roles: [])
-  games(
-    continuationToken: String
-    input: GamesSearchInput
-    limit: Int! = 50
-  ): PaginatedResultsOfGame @authorize(roles: [])
-  player(id: Uuid): Player
-  playerPost(playerId: Uuid!, postId: Uuid!): PostOfPlayer @authorize(roles: [])
-  playerPostComment(commentId: Uuid!, playerId: Uuid!): PostCommentOfPlayer
-    @authorize(roles: [])
-  players(
-    continuationToken: String
-    input: PlayersSearchInput
-    limit: Int! = 50
-  ): PaginatedResultsOfPlayer @authorize(roles: [])
+	agenda(input: AgendaInput): [Game] @authorize(roles: [])
+	chat(platform: String): Chat @authorize(roles: [])
+	communities(
+		continuationToken: String
+		limit: Int! = 64
+		term: String
+	): PaginatedResultsOfCommunity @authorize(roles: [])
+	community(communityId: Uuid!): Community @authorize(roles: [])
+	communityPost(communityId: Uuid!, postId: Uuid!): PostOfCommunity
+		@authorize(roles: [])
+	communityPostComment(
+		commentId: Uuid!
+		communityId: Uuid!
+	): PostCommentOfCommunity @authorize(roles: [])
+	course(courseId: Uuid!): Course @authorize(roles: [])
+	courses(
+		continuationToken: String
+		limit: Int! = 64
+		term: String
+	): PaginatedResultsOfCourse @authorize(roles: [])
+	feed(
+		continuationToken: String
+		limit: Int! = 50
+	): PaginatedResultsOfIFeedEntry @authorize(roles: [])
+	game(gameId: Uuid!): Game @authorize(roles: [])
+	games(
+		continuationToken: String
+		input: GamesSearchInput
+		limit: Int! = 50
+	): PaginatedResultsOfGame @authorize(roles: [])
+	player(id: Uuid): Player
+	playerPost(playerId: Uuid!, postId: Uuid!): PostOfPlayer @authorize(roles: [])
+	playerPostComment(commentId: Uuid!, playerId: Uuid!): PostCommentOfPlayer
+		@authorize(roles: [])
+	players(
+		continuationToken: String
+		input: PlayersSearchInput
+		limit: Int! = 50
+	): PaginatedResultsOfPlayer @authorize(roles: [])
 }
 
 type Reaction {
-  count: Int!
-  partitionKey: String
-  reactionType: ReactionType!
+	count: Int!
+	partitionKey: String
+	reactionType: ReactionType!
 }
 
 type ReactionDetail {
-  id: String
-  player: Player
-  reactionType: ReactionType!
-  timestamp: DateTime!
+	id: String
+	player: Player
+	reactionType: ReactionType!
+	timestamp: DateTime!
 }
 
 type TeeTime {
-  dateAndTime: DateTime!
-  isConfirmed: Boolean!
+	dateAndTime: DateTime!
+	isConfirmed: Boolean!
 }
 
 type TelephoneNumber {
-  dialingCode: String!
-  number: String!
+	dialingCode: String!
+	number: String!
 }
 
 type Timezone {
-  id: String
-  name: String
-  utcOffset: TimeSpan!
-  utcOffsetInMinutes: Float!
+	id: String
+	name: String
+	utcOffset: TimeSpan!
+	utcOffsetInMinutes: Float!
 }
 
 input AcceptGameInvitationInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input AgendaInput {
-  communityIds: [Uuid!]
-  courseIds: [Uuid!]
-  month: Int!
-  year: Int!
+	communityIds: [Uuid!]
+	courseIds: [Uuid!]
+	month: Int!
+	year: Int!
 }
 
 input CancelGameInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input CancelGameInvitationInput {
-  gameId: Uuid!
-  playerId: Uuid!
+	gameId: Uuid!
+	playerId: Uuid!
 }
 
 input CancelGameTeeTimeInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input ChangeGameHostInput {
-  gameId: Uuid!
-  playerId: Uuid!
+	gameId: Uuid!
+	playerId: Uuid!
 }
 
 input ConfirmGamePlayerInput {
-  gameId: Uuid!
-  playerId: Uuid!
+	gameId: Uuid!
+	playerId: Uuid!
 }
 
 input ConfirmGameTeeTimeInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input CoordinatesInput {
-  lat: Decimal!
-  lon: Decimal!
+	lat: Decimal!
+	lon: Decimal!
 }
 
 input CreateCommunityCommentReactionInput {
-  commentId: Uuid!
-  communityId: Uuid!
-  reactionType: ReactionType!
+	commentId: Uuid!
+	communityId: Uuid!
+	reactionType: ReactionType!
 }
 
 input CreateCommunityInput {
-  name: String!
+	name: String!
 }
 
 input CreateCommunityPostCommentInput {
-  body: String
-  communityId: Uuid!
-  imageRefs: [ImageRefInput]
-  postId: Uuid!
+	body: String
+	communityId: Uuid!
+	imageRefs: [ImageRefInput]
+	postId: Uuid!
 }
 
 input CreateCommunityPostCommentReplyInput {
-  body: String
-  commentId: Uuid!
-  communityId: Uuid!
-  imageRefs: [ImageRefInput]
+	body: String
+	commentId: Uuid!
+	communityId: Uuid!
+	imageRefs: [ImageRefInput]
 }
 
 input CreateCommunityPostInput {
-  body: String
-  communityId: Uuid!
-  imageRefs: [ImageRefInput]
+	body: String
+	communityId: Uuid!
+	imageRefs: [ImageRefInput]
 }
 
 input CreateCommunityPostReactionInput {
-  communityId: Uuid!
-  postId: Uuid!
-  reactionType: ReactionType!
+	communityId: Uuid!
+	postId: Uuid!
+	reactionType: ReactionType!
+}
+
+input CreateCourseInput {
+	description: String!
+	emailAddress: String!
+	name: String!
+	physicalAddress: PhysicalAddressInput!
+	telephoneNumber: TelephoneNumberInput!
 }
 
 input CreateCourseReactionInput {
-  courseId: Uuid!
-  reactionType: ReactionType!
+	courseId: Uuid!
+	reactionType: ReactionType!
 }
 
 input CreateGameInput {
-  automaticallyConfirmTeeTime: Boolean
-  communityIds: [Uuid!]!
-  courseId: Uuid!
-  gameType: GameType!
-  holes: Holes!
-  isHostPlaying: Boolean
-  numberOfPlayers: Int!
-  teeTime: DateTimeInfoInput!
+	automaticallyConfirmTeeTime: Boolean
+	communityIds: [Uuid!]!
+	courseId: Uuid!
+	gameType: GameType!
+	holes: Holes!
+	isHostPlaying: Boolean
+	numberOfPlayers: Int!
+	teeTime: DateTimeInfoInput!
 }
 
 input CreateGameInvitationInput {
-  gameId: Uuid!
-  playerId: Uuid!
+	gameId: Uuid!
+	playerId: Uuid!
 }
 
 input CreateGameReactionInput {
-  gameId: Uuid!
-  reactionType: ReactionType!
+	gameId: Uuid!
+	reactionType: ReactionType!
 }
 
 input CreatePlayerCommentReactionInput {
-  commentId: Uuid!
-  playerId: Uuid!
-  reactionType: ReactionType!
+	commentId: Uuid!
+	playerId: Uuid!
+	reactionType: ReactionType!
 }
 
 input CreatePlayerPostCommentInput {
-  body: String
-  imageRefs: [ImageRefInput]
-  playerId: Uuid!
-  postId: Uuid!
+	body: String
+	imageRefs: [ImageRefInput]
+	playerId: Uuid!
+	postId: Uuid!
 }
 
 input CreatePlayerPostCommentReplyInput {
-  body: String
-  commentId: Uuid!
-  imageRefs: [ImageRefInput]
-  playerId: Uuid!
+	body: String
+	commentId: Uuid!
+	imageRefs: [ImageRefInput]
+	playerId: Uuid!
 }
 
 input CreatePlayerPostInput {
-  body: String
-  imageRefs: [ImageRefInput]
+	body: String
+	imageRefs: [ImageRefInput]
 }
 
 input CreatePlayerPostReactionInput {
-  playerId: Uuid!
-  postId: Uuid!
-  reactionType: ReactionType!
+	playerId: Uuid!
+	postId: Uuid!
+	reactionType: ReactionType!
 }
 
 input DateRangeInput {
-  from: DateTime
-  to: DateTime
+	from: DateTime
+	to: DateTime
 }
 
 input DateTimeInfoInput {
-  day: Int!
-  hour: Int!
-  minute: Int!
-  month: Int!
-  year: Int!
+	day: Int!
+	hour: Int!
+	minute: Int!
+	month: Int!
+	year: Int!
 }
 
 input DeclineGameInvitationInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input DeclineGamePlayerInput {
-  gameId: Uuid!
-  playerId: Uuid!
+	gameId: Uuid!
+	playerId: Uuid!
 }
 
 input DiscardPlayerGameInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input FollowPlayerInput {
-  playerId: Uuid!
+	playerId: Uuid!
 }
 
 input GamesSearchInput {
-  communityIds: [Uuid!]
-  courseIds: [Uuid!]
-  isAscending: Boolean
-  teeTime: DateRangeInput
-  term: String
+	communityIds: [Uuid!]
+	courseIds: [Uuid!]
+	isAscending: Boolean
+	teeTime: DateRangeInput
+	term: String
 }
 
 input ImageRefInput {
-  filename: String
-  height: Int!
-  width: Int!
+	filename: String
+	height: Int!
+	width: Int!
 }
 
 input JoinCommunityInput {
-  communityId: Uuid!
+	communityId: Uuid!
 }
 
 input JoinGameInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input LeaveCommunityInput {
-  communityId: Uuid!
+	communityId: Uuid!
 }
 
 input LeaveGameInput {
-  gameId: Uuid!
+	gameId: Uuid!
 }
 
 input NotificationPreferenceInput {
-  communicationMethods: [CommunicationMethod!]!
-  eventType: String!
+	communicationMethods: [CommunicationMethod!]!
+	eventType: String!
 }
 
 input PhysicalAddressInput {
-  coordinates: CoordinatesInput!
-  countryCode: String!
-  postCode: String!
-  province: String!
-  street: String!
-  streetNumber: String!
-  suburb: String!
+	coordinates: CoordinatesInput!
+	countryCode: String!
+	postCode: String!
+	province: String!
+	street: String!
+	streetNumber: String!
+	suburb: String!
 }
 
 input PlayersSearchInput {
-  term: String
+	term: String
 }
 
 input RegisterPlayerFcmTokenInput {
-  token: String!
+	token: String!
 }
 
 input RegisterPlayerInput {
-  countryCode: String!
-  handicap: Int!
-  name: String!
-  playerTypes: [PlayerType!]!
-  preferredCourseIds: [Uuid!]!
-  preferredGameTypes: [GameType!]!
-  preferredPlayerTypes: [PlayerType!]!
+	countryCode: String!
+	handicap: Int!
+	name: String!
+	playerTypes: [PlayerType!]!
+	preferredCourseIds: [Uuid!]!
+	preferredGameTypes: [GameType!]!
+	preferredPlayerTypes: [PlayerType!]!
 }
 
 input RemoveReactionInput {
-  id: Uuid!
-  reactionType: ReactionType!
+	id: Uuid!
+	reactionType: ReactionType!
 }
 
 input ReportAbuseInput {
-  description: String!
-  playerId: Uuid!
+	description: String!
+	playerId: Uuid!
 }
 
 input SetCommunityAdminsInput {
-  communityId: Uuid!
-  playerIds: [Uuid!]!
+	communityId: Uuid!
+	playerIds: [Uuid!]!
 }
 
 input SetCommunityProfileImageRefInput {
-  communityId: Uuid!
-  filename: String
-  height: Int!
-  width: Int!
+	communityId: Uuid!
+	filename: String
+	height: Int!
+	width: Int!
 }
 
 input SetNotificationPreferencesInput {
-  options: [NotificationPreferenceInput!]!
+	options: [NotificationPreferenceInput!]!
 }
 
 input TelephoneNumberInput {
-  dialingCode: String!
-  number: String!
+	dialingCode: String!
+	number: String!
 }
 
 input UnfollowPlayerInput {
-  playerId: Uuid!
+	playerId: Uuid!
 }
 
 input UpdateCommunityInput {
-  communityId: Uuid!
-  name: String!
+	communityId: Uuid!
+	name: String!
+}
+
+input UpdateCourseInput {
+	courseId: Uuid!
+	description: String!
+	emailAddress: String!
+	name: String!
+	physicalAddress: PhysicalAddressInput!
+	telephoneNumber: TelephoneNumberInput!
 }
 
 input UpdateGameInput {
-  communityIds: [Uuid!]!
-  courseId: Uuid!
-  gameId: Uuid!
-  gameType: GameType!
-  holes: Holes!
-  numberOfPlayers: Int!
-  teeTime: DateTime!
+	communityIds: [Uuid!]!
+	courseId: Uuid!
+	gameId: Uuid!
+	gameType: GameType!
+	holes: Holes!
+	numberOfPlayers: Int!
+	teeTime: DateTime!
 }
 
 input UpdatePlayerCoursePreferencesInput {
-  preferredCourseIds: [Uuid!]!
+	preferredCourseIds: [Uuid!]!
 }
 
 input UpdatePlayerGamePreferencesInput {
-  preferredGameTypes: [GameType!]!
-  preferredPlayerTypes: [PlayerType!]!
+	preferredGameTypes: [GameType!]!
+	preferredPlayerTypes: [PlayerType!]!
 }
 
 input UpdatePlayerHandicapInput {
-  handicap: Int!
+	handicap: Int!
 }
 
 input UpdatePlayerInput {
-  countryCode: String!
-  name: String!
-  playerTypes: [PlayerType!]!
-  preferredCourseIds: [Uuid!]!
-  preferredGameTypes: [GameType!]!
-  preferredPlayerTypes: [PlayerType!]!
+	countryCode: String!
+	name: String!
+	playerTypes: [PlayerType!]!
+	preferredCourseIds: [Uuid!]!
+	preferredGameTypes: [GameType!]!
+	preferredPlayerTypes: [PlayerType!]!
 }
 
 input UpdatePlayerPreferencesInput {
-  countryCode: String!
-  name: String!
-  playerTypes: [PlayerType!]!
-}
-
-input UpsertCourseInput {
-  description: String!
-  emailAddress: String!
-  name: String!
-  physicalAddress: PhysicalAddressInput!
-  telephoneNumber: TelephoneNumberInput!
+	countryCode: String!
+	name: String!
+	playerTypes: [PlayerType!]!
 }
 
 enum CommunicationMethod {
-  EMAIL
-  PUSHNOTIFICATIONS
+	EMAIL
+	PUSHNOTIFICATIONS
 }
 
 enum GamePlayerStatus {
-  CONFIRMED
-  PENDINGCONFIRMATION
-  STANDBY
-  DECLINED
+	CONFIRMED
+	PENDINGCONFIRMATION
+	STANDBY
+	DECLINED
 }
 
 enum GameType {
-  SOCIAL
-  MONEYGAME
-  COMPETITIVESINGLE
-  COMPETITIVETEAM
-  TOURNAMENT
+	SOCIAL
+	MONEYGAME
+	COMPETITIVESINGLE
+	COMPETITIVETEAM
+	TOURNAMENT
 }
 
 enum Holes {
-  EIGHTEENHOLES
-  NINEHOLES
+	EIGHTEENHOLES
+	NINEHOLES
 }
 
 enum Permission {
-  CREATEPOST
-  CREATEGAME
-  CREATEPOSTCOMMENT
-  CREATECOMMUNITY
+	CREATEPOST
+	CREATEGAME
+	CREATEPOSTCOMMENT
+	CREATECOMMUNITY
+	UPSERTCOURSE
 }
 
 enum PlayerType {
-  BEGINNER
-  MATCHPLAY
-  SOCIAL
-  RELAXED
+	BEGINNER
+	MATCHPLAY
+	SOCIAL
+	RELAXED
 }
 
 enum ReactionType {
-  LIKE
-  LOVE
-  HAPPY
-  ANGRY
-  SAD
-  SURPRISED
+	LIKE
+	LOVE
+	HAPPY
+	ANGRY
+	SAD
+	SURPRISED
 }
 
 directive @authorize(
-  "The name of the authorization policy that determines access to the annotated resource."
-  policy: String
-  "Roles that are allowed to access to the annotated resource."
-  roles: [String!]
+	"The name of the authorization policy that determines access to the annotated resource."
+	policy: String
+	"Roles that are allowed to access to the annotated resource."
+	roles: [String!]
 ) repeatable on OBJECT | FIELD_DEFINITION
 
 "The `Boolean` scalar type represents `true` or `false`."

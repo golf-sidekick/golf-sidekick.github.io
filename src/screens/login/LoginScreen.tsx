@@ -41,9 +41,12 @@ const LoginScreen = () => {
 				className={classNames(
 					'flex mx-auto',
 					'bg-white',
-					'p-9',
-					'mt-9',
-					'w-1/2',
+					'p-2',
+					'm-4',
+					'w-5/6',
+					'md:p-9',
+					'md:mt-9',
+					'lg:w-1/2',
 					'rounded-md',
 					'flex-col'
 				)}

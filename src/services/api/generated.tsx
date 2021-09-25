@@ -187,6 +187,14 @@ export type CreateCommunityPostReactionInput = {
   reactionType: ReactionType;
 };
 
+export type CreateCourseInput = {
+  description: Scalars['String'];
+  emailAddress: Scalars['String'];
+  name: Scalars['String'];
+  physicalAddress: PhysicalAddressInput;
+  telephoneNumber: TelephoneNumberInput;
+};
+
 export type CreateCourseReactionInput = {
   courseId: Scalars['Uuid'];
   reactionType: ReactionType;
@@ -423,6 +431,7 @@ export type Mutation = {
   setPlayerProfileImageRef?: Maybe<Player>;
   unfollowPlayer?: Maybe<Player>;
   updateCommunity?: Maybe<Community>;
+  updateCourse?: Maybe<Course>;
   updateGame?: Maybe<Game>;
   updatePlayer?: Maybe<Player>;
   updatePlayerCoursePreferences?: Maybe<Player>;
@@ -498,7 +507,7 @@ export type MutationCreateCommunityPostReactionArgs = {
 
 
 export type MutationCreateCourseArgs = {
-  input?: Maybe<UpsertCourseInput>;
+  input?: Maybe<CreateCourseInput>;
 };
 
 
@@ -642,6 +651,11 @@ export type MutationUpdateCommunityArgs = {
 };
 
 
+export type MutationUpdateCourseArgs = {
+  input?: Maybe<UpdateCourseInput>;
+};
+
+
 export type MutationUpdateGameArgs = {
   input?: Maybe<UpdateGameInput>;
 };
@@ -763,7 +777,8 @@ export enum Permission {
   Createcommunity = 'CREATECOMMUNITY',
   Creategame = 'CREATEGAME',
   Createpost = 'CREATEPOST',
-  Createpostcomment = 'CREATEPOSTCOMMENT'
+  Createpostcomment = 'CREATEPOSTCOMMENT',
+  Upsertcourse = 'UPSERTCOURSE'
 }
 
 export type PhysicalAddress = {
@@ -1192,6 +1207,15 @@ export type UpdateCommunityInput = {
   name: Scalars['String'];
 };
 
+export type UpdateCourseInput = {
+  courseId: Scalars['Uuid'];
+  description: Scalars['String'];
+  emailAddress: Scalars['String'];
+  name: Scalars['String'];
+  physicalAddress: PhysicalAddressInput;
+  telephoneNumber: TelephoneNumberInput;
+};
+
 export type UpdateGameInput = {
   communityIds: Array<Scalars['Uuid']>;
   courseId: Scalars['Uuid'];
@@ -1228,12 +1252,4 @@ export type UpdatePlayerPreferencesInput = {
   countryCode: Scalars['String'];
   name: Scalars['String'];
   playerTypes: Array<PlayerType>;
-};
-
-export type UpsertCourseInput = {
-  description: Scalars['String'];
-  emailAddress: Scalars['String'];
-  name: Scalars['String'];
-  physicalAddress: PhysicalAddressInput;
-  telephoneNumber: TelephoneNumberInput;
 };

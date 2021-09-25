@@ -15589,6 +15589,11 @@ type@^2.0.0:
   resolved "https://registry.yarnpkg.com/type/-/type-2.3.0.tgz#ada7c045f07ead08abf9e2edd29be1a0c0661132"
   integrity sha512-rgPIqOdfK/4J9FhiVrZ3cveAjRRo5rsQBAIhnylX874y1DX/kEKSVdLsnuHB6l1KTjHyU01VjiMBHgU2adejyg==
 
+typed-countries@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/typed-countries/-/typed-countries-1.1.1.tgz#e7295dc4a2749eb47ae3dcb4a1f962ab05b3e51f"
+  integrity sha512-5aABnSu9UTjxec5KK+4+kmPFU/Jq8slemcO4hdHscmAiZbfXzEv59ZmiAUCoKYyoiChQYVW3CVy26kkWnEh1tw==
+
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
