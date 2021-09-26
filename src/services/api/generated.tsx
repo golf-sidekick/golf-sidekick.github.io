@@ -783,6 +783,7 @@ export enum Permission {
 
 export type PhysicalAddress = {
   __typename?: 'PhysicalAddress';
+  city: Scalars['String'];
   coordinates: Coordinates;
   countryCode: Scalars['String'];
   postCode: Scalars['String'];
@@ -793,6 +794,7 @@ export type PhysicalAddress = {
 };
 
 export type PhysicalAddressInput = {
+  city: Scalars['String'];
   coordinates: CoordinatesInput;
   countryCode: Scalars['String'];
   postCode: Scalars['String'];
