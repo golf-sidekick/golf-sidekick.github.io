@@ -603,6 +603,7 @@ input CreateCourseInput {
   name: String!
   physicalAddress: PhysicalAddressInput!
   telephoneNumber: TelephoneNumberInput!
+  timezoneId: String!
 }
 
 input CreateCourseReactionInput {
@@ -803,6 +804,7 @@ input UpdateCourseInput {
   name: String!
   physicalAddress: PhysicalAddressInput!
   telephoneNumber: TelephoneNumberInput!
+  timezoneId: String!
 }
 
 input UpdateGameInput {

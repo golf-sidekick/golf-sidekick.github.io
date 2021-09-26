@@ -193,6 +193,7 @@ export type CreateCourseInput = {
   name: Scalars['String'];
   physicalAddress: PhysicalAddressInput;
   telephoneNumber: TelephoneNumberInput;
+  timezoneId: Scalars['String'];
 };
 
 export type CreateCourseReactionInput = {
@@ -1216,6 +1217,7 @@ export type UpdateCourseInput = {
   name: Scalars['String'];
   physicalAddress: PhysicalAddressInput;
   telephoneNumber: TelephoneNumberInput;
+  timezoneId: Scalars['String'];
 };
 
 export type UpdateGameInput = {

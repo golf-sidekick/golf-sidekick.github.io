@@ -5,7 +5,14 @@ export const COURSE_FRAGMENT = gql`
     __typename
     id
     name
+    description
+    emailAddress
+    telephoneNumber {
+      number
+      dialingCode
+    }
     timezone {
+      id
       name
       utcOffset
     }
@@ -14,6 +21,7 @@ export const COURSE_FRAGMENT = gql`
       streetNumber
       street
       suburb
+      city
       province
       countryCode
       postCode
