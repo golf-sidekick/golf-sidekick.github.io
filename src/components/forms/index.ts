@@ -9,6 +9,7 @@ export {TextField} from './text-field'
 export {TextAreaField} from './text-area-field'
 export {FormSection} from './form-section'
 export {Form} from './form'
+export {DropdownField} from './dropdown-field'
 
 export {default as isEmailAddress} from './validation/isEmailAddress'
 export {default as isNumber} from './validation/isNumber'

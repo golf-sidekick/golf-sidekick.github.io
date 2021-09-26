@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 const Form = ({children}: FormProps) => {
   return (
-    <div
+    <form
       className={classNames(
         'bg-white',
         'rounded-md',
@@ -14,7 +14,7 @@ const Form = ({children}: FormProps) => {
         'md:w-3/4'
       )}>
       {children}
-    </div>
+    </form>
   )
 }
 

@@ -1,4 +1,5 @@
 import {
+  DropdownField,
   Form,
   FormSection,
   TextAreaField,
@@ -13,7 +14,13 @@ import {
 } from 'components/forms'
 
 import classNames from 'classnames'
+import {countries} from 'typed-countries'
 import {useHistory} from 'react-router-dom'
+
+const countriesSource = countries.map(country => ({
+  key: country.iso,
+  value: country.name
+}))
 
 const AddCourseScreen = () => {
   const history = useHistory()
@@ -151,11 +158,12 @@ const AddCourseScreen = () => {
             fieldName={'postCode'}
             label={'Post Code'}
           />
-          <TextField
+          <DropdownField
+            source={countriesSource}
             placeholder={'ZA'}
             form={form}
             fieldName={'countryCode'}
-            label={'Country Code'}
+            label={'Country'}
           />
           <TextField
             placeholder={'10.487812'}
