@@ -55,8 +55,6 @@ const getCity = (result: AddressCommponent[]) =>
   findAddressComponent(result, 'administrative_area_level_2')?.longName ?? ''
 
 const getPlace = (result: google.maps.places.PlaceResult): PlaceProps => {
-  console.log(result)
-
   const addressComponents = getAddressComponents(result)
 
   return {

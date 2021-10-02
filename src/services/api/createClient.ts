@@ -111,7 +111,7 @@ const createClient = (
           fields: {
             communities: paginationPolicy,
             games: paginatedGamesPolicy,
-            courses: paginationPolicy,
+            courses: replacePolicy,
             chat: replacePolicy,
             feed: paginationPolicy,
             // Ensures that all agenda items are merged into one big array

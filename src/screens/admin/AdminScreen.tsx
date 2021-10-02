@@ -1,3 +1,4 @@
+import React, {useState} from 'react'
 import {Switch, useHistory} from 'react-router-dom'
 import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 import {formatAddress, isBusy} from 'state'
@@ -52,11 +53,14 @@ const NavBar = () => {
 }
 
 const CourseList = () => {
-  const {data, networkStatus} = useCourseSearch({})
+  const [term, setTerm] = useState('')
+  const {data, networkStatus} = useCourseSearch({limit: 10000, term})
   const history = useHistory()
   const addCourse = () => history.push('/admin/add-course')
   const editCourse = (courseId: string) => () =>
     history.push(`/admin/edit-course/${courseId}`)
+  const onFilter = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTerm(e.target.value)
 
   return (
     <div
@@ -72,29 +76,46 @@ const CourseList = () => {
         <h2 className={classNames('text-lg', 'text-bold', 'p-3')}>
           Course list
         </h2>
-        <button
-          onClick={addCourse}
+        <div
           className={classNames(
-            'btn',
-            'btn-sm',
             'flex',
             'flex-row',
-            'justify-start',
-            'gap-x-2'
+            'items-center',
+            'space-x-3'
           )}>
-          Add course
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
+          <div className="form-control">
+            <input
+              type="text"
+              placeholder="Filter"
+              className="input input-bordered input-sm"
+              onChange={onFilter}
+              value={term}
+            />
+          </div>
+          <button
+            onClick={addCourse}
+            className={classNames(
+              'btn',
+              'btn-sm',
+              'flex',
+              'flex-row',
+              'justify-start',
+              'gap-x-2'
+            )}>
+            Add course
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+        </div>
       </div>
       {!isBusy(networkStatus) && (
-        <div className={'overflow-x-auto max-h-96'}>
+        <div className={'overflow-x-auto'}>
           <table className={'table w-full'}>
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Address</th>
-                <th>Timezone</th>
+                <th className={'hidden xl:table-cell'}>Description</th>
+                <th className={'hidden lg:table-cell'}>Address</th>
+                <th className={'hidden xl:table-cell'}>Timezone</th>
                 <th>&nbsp;</th>
               </tr>
             </thead>
@@ -102,9 +123,15 @@ const CourseList = () => {
               {data.map(course => (
                 <tr key={course.id}>
                   <td>{course.name}</td>
-                  <td>{course.description}</td>
-                  <td>{formatAddress(course.physicalAddress)}</td>
-                  <td>{course.timezone?.name}</td>
+                  <td className={'hidden xl:table-cell'}>
+                    {course.description}
+                  </td>
+                  <td className={'hidden lg:table-cell'}>
+                    {formatAddress(course.physicalAddress)}
+                  </td>
+                  <td className={'hidden xl:table-cell'}>
+                    {course.timezone?.name}
+                  </td>
                   <td>
                     <button
                       className={classNames('btn btn-xs')}
