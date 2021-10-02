@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { fetchAndActivate, getRemoteConfig } from 'firebase/remote-config'
+import React, {useEffect, useState} from 'react'
+import {fetchAndActivate, getRemoteConfig} from 'firebase/remote-config'
 
-import { ConfigProviderProps } from './ConfigProviderProps'
+import {ConfigProviderProps} from './ConfigProviderProps'
 
-const ConfigProvider = ({ children }: ConfigProviderProps) => {
-	const [ready, setReady] = useState(false)
+const ConfigProvider = ({children}: ConfigProviderProps) => {
+  const [ready, setReady] = useState(false)
 
-	useEffect(() => {
-		const remoteConfig = getRemoteConfig()
+  useEffect(() => {
+    const remoteConfig = getRemoteConfig()
 
-		const init = async () => {
-			await fetchAndActivate(remoteConfig)
-			setReady(true)
-		}
+    const init = async () => {
+      await fetchAndActivate(remoteConfig)
+      setReady(true)
+    }
 
-		init()
-	}, [])
+    init()
+  }, [])
 
-	return <>{ready && children}</>
+  return <>{ready && children}</>
 }
 
 export default ConfigProvider

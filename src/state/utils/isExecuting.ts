@@ -1,9 +1,9 @@
-import { MutationTuple } from '@apollo/client'
+import {MutationTuple} from '@apollo/client'
 
-const isExecuting = <TData, TVariables>([_, { loading }]: MutationTuple<
-	TData,
-	TVariables
+const isExecuting = <TData, TVariables>([_, {loading}]: MutationTuple<
+  TData,
+  TVariables
 >) => {
-	return loading
+  return loading
 }
 export default isExecuting

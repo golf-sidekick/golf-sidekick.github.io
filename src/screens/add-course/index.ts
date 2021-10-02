@@ -1,1 +1,1 @@
-export { default as AddCourseScreen } from './AddCourseScreen'
+export {default as AddCourseScreen} from './AddCourseScreen'

@@ -1,16 +1,16 @@
-import { Redirect, Route } from 'react-router-dom'
+import {Redirect, Route} from 'react-router-dom'
 
-import { ProtectedRouteProps } from './ProtectedRouteProps'
-import { useAuthContext } from 'services/auth'
+import {ProtectedRouteProps} from './ProtectedRouteProps'
+import {useAuthContext} from 'services/auth'
 
-const ProtectedRoute = ({ children, ...props }: ProtectedRouteProps) => {
-	const { authenticated } = useAuthContext()
+const ProtectedRoute = ({children, ...props}: ProtectedRouteProps) => {
+  const {authenticated} = useAuthContext()
 
-	return (
-		<Route {...props}>
-			{authenticated ? <>{children}</> : <Redirect to={'/login'} />}
-		</Route>
-	)
+  return (
+    <Route {...props}>
+      {authenticated ? <>{children}</> : <Redirect to={'/login'} />}
+    </Route>
+  )
 }
 
 export default ProtectedRoute

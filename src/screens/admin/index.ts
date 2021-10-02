@@ -1,1 +1,1 @@
-export { default as AdminScreen } from './AdminScreen'
+export {default as AdminScreen} from './AdminScreen'

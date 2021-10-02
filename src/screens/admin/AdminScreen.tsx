@@ -34,11 +34,13 @@ const NavBar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
+            className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
+          >
             <li>
               <button
                 className={'btn btn-ghost flex flex-row justify-start gap-x-2'}
-                onClick={logout}>
+                onClick={logout}
+              >
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 Logout
               </button>
@@ -59,7 +61,8 @@ const CourseList = () => {
 
   return (
     <div
-      className={classNames('bg-white', 'rounded-md', 'm-2', 'p-6', 'shadow')}>
+      className={classNames('bg-white', 'rounded-md', 'm-2', 'p-6', 'shadow')}
+    >
       <div
         className={classNames(
           'flex',
@@ -67,7 +70,8 @@ const CourseList = () => {
           'justify-between',
           'border-b-2',
           'mb-3'
-        )}>
+        )}
+      >
         <h2 className={classNames('text-lg', 'text-bold', 'p-3')}>
           Course list
         </h2>
@@ -80,7 +84,8 @@ const CourseList = () => {
             'flex-row',
             'justify-start',
             'gap-x-2'
-          )}>
+          )}
+        >
           Add course
           <FontAwesomeIcon icon={faPlus} />
         </button>
@@ -107,7 +112,8 @@ const CourseList = () => {
                   <td>
                     <button
                       className={classNames('btn btn-xs')}
-                      onClick={editCourse(course.id)}>
+                      onClick={editCourse(course.id)}
+                    >
                       Edit
                     </button>
                   </td>

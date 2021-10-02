@@ -22,7 +22,8 @@ const TextField = ({
         'w-full',
         'md:w-1/2',
         containerClassName
-      )}>
+      )}
+    >
       {label && (
         <label className="label">
           <span className="label-text">{label}</span>

@@ -1,1 +1,1 @@
-export type ScreenShotProps = { src: string }
+export type ScreenShotProps = {src: string}

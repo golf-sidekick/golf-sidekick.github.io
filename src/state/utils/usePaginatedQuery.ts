@@ -5,9 +5,7 @@ import {Maybe} from 'graphql/jsutils/Maybe'
 const usePaginatedQuery = <TResponse, TData>(
   gql: DocumentNode,
   variables: any,
-  getData: (
-    response: Maybe<TResponse>
-  ) => Maybe<{
+  getData: (response: Maybe<TResponse>) => Maybe<{
     data: Array<TData>
     continuationToken?: Maybe<string>
   }>

@@ -1,1 +1,1 @@
-export { default as registerFirebaseApp } from './registerFirebaseApp'
+export {default as registerFirebaseApp} from './registerFirebaseApp'

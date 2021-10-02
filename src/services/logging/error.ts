@@ -1,5 +1,5 @@
 const error = (error: any) => {
-	console.error(error)
+  console.error(error)
 }
 
 export default error

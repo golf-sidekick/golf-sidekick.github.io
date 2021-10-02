@@ -45,7 +45,8 @@ const DropdownField = ({
         'w-full',
         'md:w-1/2',
         containerClassName
-      )}>
+      )}
+    >
       {label && (
         <label className="label">
           <span className="label-text">{label}</span>
@@ -80,7 +81,8 @@ const DropdownField = ({
               'mh-64',
               'overflow-y-auto',
               'box-content'
-            )}>
+            )}
+          >
             {items.map(item => (
               <li key={item.key}>
                 <a onClick={select(item)}>{item.value}</a>

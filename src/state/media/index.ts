@@ -1,1 +1,1 @@
-export { default as useGetImageSource } from './useGetImageSource'
+export {default as useGetImageSource} from './useGetImageSource'

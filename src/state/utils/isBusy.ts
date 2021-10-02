@@ -1,10 +1,10 @@
-import { NetworkStatus } from '@apollo/client'
+import {NetworkStatus} from '@apollo/client'
 
 const isBusy = (
-	currentStatus: NetworkStatus,
-	busy: NetworkStatus[] = [NetworkStatus.loading, NetworkStatus.refetch]
+  currentStatus: NetworkStatus,
+  busy: NetworkStatus[] = [NetworkStatus.loading, NetworkStatus.refetch]
 ) => {
-	return busy.indexOf(currentStatus) !== -1
+  return busy.indexOf(currentStatus) !== -1
 }
 
 export default isBusy

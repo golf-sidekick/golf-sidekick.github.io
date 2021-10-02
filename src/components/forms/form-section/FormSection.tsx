@@ -16,7 +16,8 @@ const FormSection = ({children, title, index = '-'}: FormSectionProps) => {
             'items-center',
             'flex',
             'mr-4'
-          )}>
+          )}
+        >
           {index}
         </div>
         <span>{title}</span>

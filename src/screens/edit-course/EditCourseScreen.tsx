@@ -236,7 +236,8 @@ const EditCourseScreen = () => {
           </button>
           <button
             className={classNames('btn', {loading: loading})}
-            onClick={submit}>
+            onClick={submit}
+          >
             Save
           </button>
         </div>

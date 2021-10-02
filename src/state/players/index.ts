@@ -1,1 +1,1 @@
-export { default as useGetSelf } from './useGetSelf'
+export {default as useGetSelf} from './useGetSelf'

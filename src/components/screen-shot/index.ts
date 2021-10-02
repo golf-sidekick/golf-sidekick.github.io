@@ -1,1 +1,1 @@
-export { default as ScreenShot } from './ScreenShot'
+export {default as ScreenShot} from './ScreenShot'
