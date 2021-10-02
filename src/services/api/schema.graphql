@@ -68,13 +68,14 @@ type Coordinates {
 
 type Course {
   description: String!
-  emailAddress: String!
+  emailAddress: String
   id: Uuid!
   name: String!
   physicalAddress: PhysicalAddress!
   reactions: [Reaction]
-  telephoneNumber: TelephoneNumber!
+  telephoneNumber: TelephoneNumber
   timezone: Timezone
+  website: String
 }
 
 type Game {
@@ -599,11 +600,12 @@ input CreateCommunityPostReactionInput {
 
 input CreateCourseInput {
   description: String!
-  emailAddress: String!
+  emailAddress: String
   name: String!
   physicalAddress: PhysicalAddressInput!
-  telephoneNumber: TelephoneNumberInput!
+  telephoneNumber: TelephoneNumberInput
   timezoneId: String!
+  website: String
 }
 
 input CreateCourseReactionInput {
@@ -800,11 +802,12 @@ input UpdateCommunityInput {
 input UpdateCourseInput {
   courseId: Uuid!
   description: String!
-  emailAddress: String!
+  emailAddress: String
   name: String!
   physicalAddress: PhysicalAddressInput!
-  telephoneNumber: TelephoneNumberInput!
+  telephoneNumber: TelephoneNumberInput
   timezoneId: String!
+  website: String
 }
 
 input UpdateGameInput {

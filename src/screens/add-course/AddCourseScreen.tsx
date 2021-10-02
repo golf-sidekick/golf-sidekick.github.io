@@ -3,6 +3,8 @@ import {
   DropdownField,
   Form,
   FormSection,
+  PlaceField,
+  PlaceProps,
   TextAreaField,
   TextField,
   getFormData,
@@ -13,11 +15,11 @@ import {
   numberConverter,
   useForm
 } from 'components/forms'
+import {useCallback, useMemo} from 'react'
 import {useCountryDropdownSource, useTimezoneDropdownSource} from 'state'
 
 import classNames from 'classnames'
 import {useHistory} from 'react-router-dom'
-import {useMemo} from 'react'
 
 const AddCourseScreen = () => {
   const history = useHistory()
@@ -31,21 +33,25 @@ const AddCourseScreen = () => {
         value: '',
         validators: [notNullOrEmpty]
       },
+      website: {
+        value: '',
+        validators: []
+      },
       emailAddress: {
         value: '',
-        validators: [notNullOrEmpty, isEmailAddress]
+        validators: [isEmailAddress]
       },
       dialingCode: {
         value: '',
-        validators: [notNullOrEmpty]
+        validators: []
       },
       telephoneNumber: {
         value: '',
-        validators: [notNullOrEmpty]
+        validators: []
       },
       streetNumber: {
         value: '',
-        validators: [notNullOrEmpty]
+        validators: []
       },
       street: {
         value: '',
@@ -89,6 +95,7 @@ const AddCourseScreen = () => {
     []
   )
   const form = useForm(fields)
+  const [, {setValues}] = form
   const discard = () => history.goBack()
   const [execute, {loading}] = useCreateCourse()
   const countries = useCountryDropdownSource()
@@ -100,12 +107,16 @@ const AddCourseScreen = () => {
       await execute({
         name: data.name,
         description: data.description,
+        website: data.website,
         emailAddress: data.emailAddress,
         timezoneId: data.timezoneId,
-        telephoneNumber: {
-          number: data.telephoneNumber,
-          dialingCode: data.dialingCode
-        },
+        telephoneNumber:
+          data.telephoneNumber && data.dialingCode
+            ? {
+                number: data.telephoneNumber,
+                dialingCode: data.dialingCode
+              }
+            : null,
         physicalAddress: {
           city: data.city,
           countryCode: data.countryCode,
@@ -124,15 +135,21 @@ const AddCourseScreen = () => {
     }
   }
 
+  const onPlaceChanged = useCallback(
+    (place: PlaceProps) => setValues(place),
+    [setValues]
+  )
+
   return (
     <div className={classNames('flex justify-center')}>
       <Form>
         <FormSection title={'Course info'} index={'1'}>
-          <TextField
+          <PlaceField
             placeholder={'Acme Country Club'}
             form={form}
             fieldName={'name'}
             label={'Name'}
+            onPlaceChanged={onPlaceChanged}
           />
           <TextAreaField
             placeholder={'Supply the course description'}
@@ -142,6 +159,12 @@ const AddCourseScreen = () => {
           />
         </FormSection>
         <FormSection title={'Contact'} index={'2'}>
+          <TextField
+            placeholder={'https://www.course.com'}
+            form={form}
+            fieldName={'website'}
+            label={'Website'}
+          />
           <TextField
             placeholder={'info@course.com'}
             form={form}
@@ -231,8 +254,7 @@ const AddCourseScreen = () => {
           </button>
           <button
             className={classNames('btn', {loading: loading})}
-            onClick={submit}
-          >
+            onClick={submit}>
             Save
           </button>
         </div>

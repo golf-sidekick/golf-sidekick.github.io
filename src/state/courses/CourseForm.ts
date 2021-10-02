@@ -1,9 +1,10 @@
 export type CourseForm = {
   name: string
   description: string
-  emailAddress: string
-  dialingCode: string
-  telephoneNumber: string
+  website?: string
+  emailAddress?: string
+  dialingCode?: string
+  telephoneNumber?: string
   streetNumber: string
   street: string
   suburb: string

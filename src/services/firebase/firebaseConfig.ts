@@ -1,5 +1,5 @@
 const firebaseConfig = {
-  apiKey: 'AIzaSyBCk5rap0Tdlqj_pernFpnqlId79mM0Xxc',
+  apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   authDomain: 'golf-sidekick.firebaseapp.com',
   databaseURL: 'https://golf-sidekick.firebaseio.com',
   projectId: 'golf-sidekick',
