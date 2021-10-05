@@ -29,8 +29,7 @@ const Section = ({
         'items-center',
         'py-9',
         className
-      )}
-    >
+      )}>
       {children}
     </div>
   )
@@ -87,45 +86,13 @@ const LandingScreen = () => {
         </div>
       </Section>
       <Break />
-      <Section className={'bg-white'}>
-        <div className={'flex items-center justify-center'}>
-          <div className={'max-w-xs'}>
-            <ScreenShot src={screenshot1} />
-          </div>
-        </div>
-        <div className={'pt-9 lg:pt-0 flex flex-col items-center text-black'}>
-          <div className={'w-7/12 text-center'}>
-            <h1 className={'text-4xl font-bold mb-6'}>Game calendar</h1>
-            <h2 className={'text-lg font-normal mb-12'}>
-              Manage games via the game calendar.
-            </h2>
-          </div>
-        </div>
-      </Section>
-      <Break inverse />
-      <Section>
-        <div className={'flex flex-col items-center text-white'}>
-          <div className={'w-7/12 text-center'}>
-            <h1 className={'text-4xl font-bold mb-6 text-shadow'}>Game chat</h1>
-            <h2 className={'text-lg font-normal mb-12 text-shadow'}>
-              Keep in touch and coordinate games via the game chat.
-            </h2>
-          </div>
-        </div>
-        <div className={'pt-9 lg:pt-0 flex items-center justify-center'}>
-          <div className={'max-w-xs'}>
-            <ScreenShot src={screenshot1} />
-          </div>
-        </div>
-      </Section>
-      <Break />
       <footer className="p-10 footer footer-center bg-white">
         <div>
           <span className="footer-title">Company</span>
-          <a className="link link-hover" href={'/about'}>
+          <a className="link link-hover" href={'https://golfsidekick.com/'}>
             About us
           </a>
-          <a className="link link-hover" href={'/contact'}>
+          <a className="link link-hover" href={'https://golfsidekick.com/'}>
             Contact
           </a>
         </div>
