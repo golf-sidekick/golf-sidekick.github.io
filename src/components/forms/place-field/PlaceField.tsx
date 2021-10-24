@@ -16,7 +16,10 @@ const PlacesField = ({
   const [state, {setValue}] = form
   const field = state[fieldName]
   const [term, setTerm] = useState(field.value)
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => setTerm(e.target.value)
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTerm(e.target.value)
+    setValue(fieldName, e.target.value)
+  }
   const hasError = field.touched && !field.isValid
   const autoComplete = useRef<google.maps.places.Autocomplete | undefined>()
 
