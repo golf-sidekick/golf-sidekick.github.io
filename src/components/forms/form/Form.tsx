@@ -4,6 +4,7 @@ import classNames from 'classnames'
 const Form = ({children}: FormProps) => {
   return (
     <form
+      onSubmit={e => e.preventDefault()}
       className={classNames(
         'bg-white',
         'rounded-md',
@@ -12,8 +13,7 @@ const Form = ({children}: FormProps) => {
         'w-full',
         'lg:w-1/2',
         'md:w-3/4'
-      )}
-    >
+      )}>
       {children}
     </form>
   )
