@@ -9,7 +9,7 @@ import screenshot1 from 'assets/screenshot-1.png'
 
 const googleLink =
   'https://play.google.com/store/apps/details?id=com.golfsidekick'
-const appleLink = 'https://testflight.apple.com/join/t6ys2guf'
+const appleLink = 'https://apps.apple.com/us/app/keynote/id1524843710'
 
 const Section = ({
   children,
