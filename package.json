@@ -43,7 +43,7 @@
 		"test": "craco test",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
-		"deploy": "gh-pages -d build",
+		"deploy": "gh-pages --dotfiles -d build",
 		"codegen": "graphql-codegen --config codegen.yml"
 	},
 	"eslintConfig": {
