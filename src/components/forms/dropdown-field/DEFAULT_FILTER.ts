@@ -1,4 +1,4 @@
 const DEFAULT_FILTER = (term: string, {value}: {value: string}) =>
-  term === '' || value.includes(term)
+  term === '' || value.toLowerCase().includes(term.toLowerCase())
 
 export default DEFAULT_FILTER
