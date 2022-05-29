@@ -62,8 +62,10 @@ export enum CommunicationMethod {
 export type Community = {
   __typename?: 'Community';
   admins?: Maybe<Array<Maybe<Player>>>;
+  canCreateGames: Scalars['Boolean'];
   id: Scalars['Uuid'];
   initials?: Maybe<Scalars['String']>;
+  isAdmin: Scalars['Boolean'];
   isMember: Scalars['Boolean'];
   memberCount: Scalars['Long'];
   members?: Maybe<PaginatedResultsOfCommunityMember>;
@@ -207,7 +209,7 @@ export type CreateGameInput = {
   automaticallyConfirmTeeTime?: Maybe<Scalars['Boolean']>;
   communityIds: Array<Scalars['Uuid']>;
   courseId: Scalars['Uuid'];
-  gameType: GameType;
+  gameType?: Maybe<GameType>;
   holes: Holes;
   isHostPlaying?: Maybe<Scalars['Boolean']>;
   numberOfPlayers: Scalars['Int'];
@@ -260,6 +262,21 @@ export type DateRangeInput = {
   to?: Maybe<Scalars['DateTime']>;
 };
 
+export type DateTimeInfo = {
+  __typename?: 'DateTimeInfo';
+  day: Scalars['Int'];
+  hour: Scalars['Int'];
+  minute: Scalars['Int'];
+  month: Scalars['Int'];
+  toDateTimeOffset: Scalars['DateTime'];
+  year: Scalars['Int'];
+};
+
+
+export type DateTimeInfoToDateTimeOffsetArgs = {
+  timeZoneId?: Maybe<TimeZoneIdInput>;
+};
+
 export type DateTimeInfoInput = {
   day: Scalars['Int'];
   hour: Scalars['Int'];
@@ -277,6 +294,15 @@ export type DeclineGamePlayerInput = {
   playerId: Scalars['Uuid'];
 };
 
+export type DeleteCommunityPostInput = {
+  communityId: Scalars['Uuid'];
+  postId: Scalars['Uuid'];
+};
+
+export type DeletePlayerPostInput = {
+  postId: Scalars['Uuid'];
+};
+
 export type DiscardPlayerGameInput = {
   gameId: Scalars['Uuid'];
 };
@@ -289,7 +315,7 @@ export type Game = {
   __typename?: 'Game';
   communities?: Maybe<Array<Maybe<Community>>>;
   course?: Maybe<Course>;
-  gameType: GameType;
+  gameType?: Maybe<GameType>;
   holes: Holes;
   host?: Maybe<Player>;
   id: Scalars['Uuid'];
@@ -302,7 +328,7 @@ export type Game = {
   playerCount: Scalars['Int'];
   players?: Maybe<Array<Maybe<GamePlayer>>>;
   reactions?: Maybe<Array<Maybe<Reaction>>>;
-  teeTime: TeeTime;
+  teeTime?: Maybe<TeeTime>;
 };
 
 export type GameFeedEntry = IFeedEntry & {
@@ -328,12 +354,23 @@ export type GamePlayer = {
   status: GamePlayerStatus;
 };
 
+export type GamePlayerSetup = {
+  __typename?: 'GamePlayerSetup';
+  displayText?: Maybe<Scalars['String']>;
+  value: Scalars['Int'];
+};
+
 export enum GamePlayerStatus {
   Confirmed = 'CONFIRMED',
   Declined = 'DECLINED',
   Pendingconfirmation = 'PENDINGCONFIRMATION',
   Standby = 'STANDBY'
 }
+
+export type GameSetup = {
+  __typename?: 'GameSetup';
+  players?: Maybe<Array<Maybe<GamePlayerSetup>>>;
+};
 
 export enum GameType {
   Competitivesingle = 'COMPETITIVESINGLE',
@@ -345,6 +382,7 @@ export enum GameType {
 
 export type GamesSearchInput = {
   communityIds?: Maybe<Array<Scalars['Uuid']>>;
+  coordinates?: Maybe<CoordinatesInput>;
   courseIds?: Maybe<Array<Scalars['Uuid']>>;
   isAscending?: Maybe<Scalars['Boolean']>;
   teeTime?: Maybe<DateRangeInput>;
@@ -417,6 +455,8 @@ export type Mutation = {
   createPlayerPostReaction?: Maybe<PostOfPlayer>;
   declineGameInvitation?: Maybe<Player>;
   declineGamePlayer?: Maybe<Game>;
+  deleteCommunityPost?: Maybe<PostOfCommunity>;
+  deletePlayerPost?: Maybe<PostOfPlayer>;
   discardPlayerGame?: Maybe<Player>;
   followPlayer?: Maybe<Player>;
   joinCommunity?: Maybe<Player>;
@@ -434,12 +474,14 @@ export type Mutation = {
   setPlayerProfileImageRef?: Maybe<Player>;
   unfollowPlayer?: Maybe<Player>;
   updateCommunity?: Maybe<Community>;
+  updateCommunityPost?: Maybe<PostOfCommunity>;
   updateCourse?: Maybe<Course>;
   updateGame?: Maybe<Game>;
   updatePlayer?: Maybe<Player>;
   updatePlayerCoursePreferences?: Maybe<Player>;
   updatePlayerGamePreferences?: Maybe<Player>;
   updatePlayerHandicap?: Maybe<Player>;
+  updatePlayerPost?: Maybe<PostOfPlayer>;
   updatePlayerPreferences?: Maybe<Player>;
 };
 
@@ -569,6 +611,16 @@ export type MutationDeclineGamePlayerArgs = {
 };
 
 
+export type MutationDeleteCommunityPostArgs = {
+  input?: Maybe<DeleteCommunityPostInput>;
+};
+
+
+export type MutationDeletePlayerPostArgs = {
+  input?: Maybe<DeletePlayerPostInput>;
+};
+
+
 export type MutationDiscardPlayerGameArgs = {
   input?: Maybe<DiscardPlayerGameInput>;
 };
@@ -654,6 +706,11 @@ export type MutationUpdateCommunityArgs = {
 };
 
 
+export type MutationUpdateCommunityPostArgs = {
+  input?: Maybe<UpdateCommunityPostInput>;
+};
+
+
 export type MutationUpdateCourseArgs = {
   input?: Maybe<UpdateCourseInput>;
 };
@@ -681,6 +738,11 @@ export type MutationUpdatePlayerGamePreferencesArgs = {
 
 export type MutationUpdatePlayerHandicapArgs = {
   input?: Maybe<UpdatePlayerHandicapInput>;
+};
+
+
+export type MutationUpdatePlayerPostArgs = {
+  input?: Maybe<UpdatePlayerPostInput>;
 };
 
 
@@ -781,6 +843,7 @@ export enum Permission {
   Creategame = 'CREATEGAME',
   Createpost = 'CREATEPOST',
   Createpostcomment = 'CREATEPOSTCOMMENT',
+  Manageautoassignedcommunities = 'MANAGEAUTOASSIGNEDCOMMUNITIES',
   Upsertcourse = 'UPSERTCOURSE'
 }
 
@@ -791,8 +854,8 @@ export type PhysicalAddress = {
   countryCode: Scalars['String'];
   postCode: Scalars['String'];
   province: Scalars['String'];
-  street: Scalars['String'];
-  streetNumber: Scalars['String'];
+  street?: Maybe<Scalars['String']>;
+  streetNumber?: Maybe<Scalars['String']>;
   suburb: Scalars['String'];
 };
 
@@ -802,8 +865,8 @@ export type PhysicalAddressInput = {
   countryCode: Scalars['String'];
   postCode: Scalars['String'];
   province: Scalars['String'];
-  street: Scalars['String'];
-  streetNumber: Scalars['String'];
+  street?: Maybe<Scalars['String']>;
+  streetNumber?: Maybe<Scalars['String']>;
   suburb: Scalars['String'];
 };
 
@@ -811,13 +874,14 @@ export type Player = {
   __typename?: 'Player';
   communities?: Maybe<Array<Maybe<Community>>>;
   countryCode?: Maybe<Scalars['String']>;
+  emailAddress?: Maybe<Scalars['String']>;
   followers?: Maybe<PaginatedResultsOfPlayer>;
   followersCount: Scalars['Int'];
   following?: Maybe<PaginatedResultsOfPlayer>;
   followingCount: Scalars['Int'];
   gameInvitations?: Maybe<Array<Maybe<PlayerGameInvitation>>>;
   games?: Maybe<PaginatedResultsOfGame>;
-  handicap: Scalars['Int'];
+  handicap?: Maybe<Scalars['Int']>;
   id: Scalars['Uuid'];
   initials?: Maybe<Scalars['String']>;
   isFollower: Scalars['Boolean'];
@@ -894,6 +958,8 @@ export type PlayerPostReactionFeedEntry = IFeedEntry & {
 
 export enum PlayerType {
   Beginner = 'BEGINNER',
+  Chill = 'CHILL',
+  Competitive = 'COMPETITIVE',
   Matchplay = 'MATCHPLAY',
   Relaxed = 'RELAXED',
   Social = 'SOCIAL'
@@ -1019,6 +1085,7 @@ export type Query = {
   courses?: Maybe<PaginatedResultsOfCourse>;
   feed?: Maybe<PaginatedResultsOfIFeedEntry>;
   game?: Maybe<Game>;
+  gameSetup?: Maybe<GameSetup>;
   games?: Maybe<PaginatedResultsOfGame>;
   player?: Maybe<Player>;
   playerPost?: Maybe<PostOfPlayer>;
@@ -1068,6 +1135,7 @@ export type QueryCourseArgs = {
 
 export type QueryCoursesArgs = {
   continuationToken?: Maybe<Scalars['String']>;
+  coordinates?: Maybe<CoordinatesInput>;
   limit?: Scalars['Int'];
   term?: Maybe<Scalars['String']>;
 };
@@ -1143,8 +1211,10 @@ export type RegisterPlayerFcmTokenInput = {
 };
 
 export type RegisterPlayerInput = {
-  countryCode: Scalars['String'];
-  handicap: Scalars['Int'];
+  communityIds?: Maybe<Array<Scalars['Uuid']>>;
+  countryCode?: Maybe<Scalars['String']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  handicap?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   playerTypes: Array<PlayerType>;
   preferredCourseIds: Array<Scalars['Uuid']>;
@@ -1181,6 +1251,7 @@ export type SetNotificationPreferencesInput = {
 export type TeeTime = {
   __typename?: 'TeeTime';
   dateAndTime: Scalars['DateTime'];
+  dateTimeInfo: DateTimeInfo;
   isConfirmed: Scalars['Boolean'];
 };
 
@@ -1193,6 +1264,10 @@ export type TelephoneNumber = {
 export type TelephoneNumberInput = {
   dialingCode: Scalars['String'];
   number: Scalars['String'];
+};
+
+export type TimeZoneIdInput = {
+  value?: Maybe<Scalars['String']>;
 };
 
 export type Timezone = {
@@ -1212,6 +1287,13 @@ export type UpdateCommunityInput = {
   name: Scalars['String'];
 };
 
+export type UpdateCommunityPostInput = {
+  body?: Maybe<Scalars['String']>;
+  communityId: Scalars['Uuid'];
+  imageRefs?: Maybe<Array<Maybe<ImageRefInput>>>;
+  postId: Scalars['Uuid'];
+};
+
 export type UpdateCourseInput = {
   courseId: Scalars['Uuid'];
   description: Scalars['String'];
@@ -1227,10 +1309,10 @@ export type UpdateGameInput = {
   communityIds: Array<Scalars['Uuid']>;
   courseId: Scalars['Uuid'];
   gameId: Scalars['Uuid'];
-  gameType: GameType;
+  gameType?: Maybe<GameType>;
   holes: Holes;
   numberOfPlayers: Scalars['Int'];
-  teeTime: Scalars['DateTime'];
+  teeTime: DateTimeInfoInput;
 };
 
 export type UpdatePlayerCoursePreferencesInput = {
@@ -1248,6 +1330,7 @@ export type UpdatePlayerHandicapInput = {
 
 export type UpdatePlayerInput = {
   countryCode: Scalars['String'];
+  emailAddress?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   playerTypes: Array<PlayerType>;
   preferredCourseIds: Array<Scalars['Uuid']>;
@@ -1255,8 +1338,15 @@ export type UpdatePlayerInput = {
   preferredPlayerTypes: Array<PlayerType>;
 };
 
+export type UpdatePlayerPostInput = {
+  body?: Maybe<Scalars['String']>;
+  imageRefs?: Maybe<Array<Maybe<ImageRefInput>>>;
+  postId: Scalars['Uuid'];
+};
+
 export type UpdatePlayerPreferencesInput = {
   countryCode: Scalars['String'];
+  emailAddress?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   playerTypes: Array<PlayerType>;
 };

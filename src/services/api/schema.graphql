@@ -14,8 +14,10 @@ type Chat {
 
 type Community {
   admins: [Player]
+  canCreateGames: Boolean!
   id: Uuid!
   initials: String
+  isAdmin: Boolean!
   isMember: Boolean!
   memberCount: Long!
   members(
@@ -78,10 +80,19 @@ type Course {
   website: String
 }
 
+type DateTimeInfo {
+  day: Int!
+  hour: Int!
+  minute: Int!
+  month: Int!
+  toDateTimeOffset(timeZoneId: TimeZoneIdInput): DateTime!
+  year: Int!
+}
+
 type Game {
   communities: [Community]
   course: Course
-  gameType: GameType!
+  gameType: GameType
   holes: Holes!
   host: Player
   id: Uuid!
@@ -94,7 +105,7 @@ type Game {
   playerCount: Int!
   players: [GamePlayer]
   reactions: [Reaction]
-  teeTime: TeeTime!
+  teeTime: TeeTime
 }
 
 type GameFeedEntry implements IFeedEntry {
@@ -115,6 +126,15 @@ type GamePlayer {
   joinedOn: DateTime!
   player: Player
   status: GamePlayerStatus!
+}
+
+type GamePlayerSetup {
+  displayText: String
+  value: Int!
+}
+
+type GameSetup {
+  players: [GamePlayerSetup]
 }
 
 type ImageRef {
@@ -180,6 +200,10 @@ type Mutation {
   declineGameInvitation(input: DeclineGameInvitationInput): Player
     @authorize(roles: [])
   declineGamePlayer(input: DeclineGamePlayerInput): Game @authorize(roles: [])
+  deleteCommunityPost(input: DeleteCommunityPostInput): PostOfCommunity
+    @authorize(policy: "Permission:CreatePost", roles: [])
+  deletePlayerPost(input: DeletePlayerPostInput): PostOfPlayer
+    @authorize(policy: "Permission:CreatePost", roles: [])
   discardPlayerGame(input: DiscardPlayerGameInput): Player @authorize(roles: [])
   followPlayer(input: FollowPlayerInput): Player @authorize(roles: [])
   joinCommunity(input: JoinCommunityInput): Player @authorize(roles: [])
@@ -203,6 +227,8 @@ type Mutation {
   unfollowPlayer(input: UnfollowPlayerInput): Player @authorize(roles: [])
   updateCommunity(input: UpdateCommunityInput): Community
     @authorize(policy: "IsCommunityAdmin", roles: [])
+  updateCommunityPost(input: UpdateCommunityPostInput): PostOfCommunity
+    @authorize(policy: "Permission:CreatePost", roles: [])
   updateCourse(input: UpdateCourseInput): Course
     @authorize(policy: "Permission:UpsertCourse", roles: [])
   updateGame(input: UpdateGameInput): Game
@@ -215,6 +241,8 @@ type Mutation {
     @authorize(roles: [])
   updatePlayerHandicap(input: UpdatePlayerHandicapInput): Player
     @authorize(roles: [])
+  updatePlayerPost(input: UpdatePlayerPostInput): PostOfPlayer
+    @authorize(policy: "Permission:CreatePost", roles: [])
   updatePlayerPreferences(input: UpdatePlayerPreferencesInput): Player
     @authorize(roles: [])
 }
@@ -296,14 +324,15 @@ type PhysicalAddress {
   countryCode: String!
   postCode: String!
   province: String!
-  street: String!
-  streetNumber: String!
+  street: String
+  streetNumber: String
   suburb: String!
 }
 
 type Player {
   communities: [Community] @authorize(policy: "IsSelf", roles: [])
   countryCode: String
+  emailAddress: String @authorize(policy: "IsSelf", roles: [])
   followers(
     continuationToken: String
     limit: Int! = 50
@@ -321,7 +350,7 @@ type Player {
     input: GamesSearchInput
     limit: Int! = 20
   ): PaginatedResultsOfGame @authorize(policy: "IsSelf", roles: [])
-  handicap: Int!
+  handicap: Int
   id: Uuid!
   initials: String
   isFollower: Boolean!
@@ -465,6 +494,7 @@ type Query @authorize(roles: []) {
   course(courseId: Uuid!): Course @authorize(roles: [])
   courses(
     continuationToken: String
+    coordinates: CoordinatesInput
     limit: Int! = 64
     term: String
   ): PaginatedResultsOfCourse @authorize(roles: [])
@@ -478,6 +508,7 @@ type Query @authorize(roles: []) {
     input: GamesSearchInput
     limit: Int! = 50
   ): PaginatedResultsOfGame @authorize(roles: [])
+  gameSetup: GameSetup @authorize(roles: [])
   player(id: Uuid): Player
   playerPost(playerId: Uuid!, postId: Uuid!): PostOfPlayer @authorize(roles: [])
   playerPostComment(commentId: Uuid!, playerId: Uuid!): PostCommentOfPlayer
@@ -504,6 +535,7 @@ type ReactionDetail {
 
 type TeeTime {
   dateAndTime: DateTime!
+  dateTimeInfo: DateTimeInfo!
   isConfirmed: Boolean!
 }
 
@@ -617,7 +649,7 @@ input CreateGameInput {
   automaticallyConfirmTeeTime: Boolean
   communityIds: [Uuid!]!
   courseId: Uuid!
-  gameType: GameType!
+  gameType: GameType
   holes: Holes!
   isHostPlaying: Boolean
   numberOfPlayers: Int!
@@ -687,6 +719,15 @@ input DeclineGamePlayerInput {
   playerId: Uuid!
 }
 
+input DeleteCommunityPostInput {
+  communityId: Uuid!
+  postId: Uuid!
+}
+
+input DeletePlayerPostInput {
+  postId: Uuid!
+}
+
 input DiscardPlayerGameInput {
   gameId: Uuid!
 }
@@ -697,6 +738,7 @@ input FollowPlayerInput {
 
 input GamesSearchInput {
   communityIds: [Uuid!]
+  coordinates: CoordinatesInput
   courseIds: [Uuid!]
   isAscending: Boolean
   teeTime: DateRangeInput
@@ -736,8 +778,8 @@ input PhysicalAddressInput {
   countryCode: String!
   postCode: String!
   province: String!
-  street: String!
-  streetNumber: String!
+  street: String
+  streetNumber: String
   suburb: String!
 }
 
@@ -750,8 +792,10 @@ input RegisterPlayerFcmTokenInput {
 }
 
 input RegisterPlayerInput {
-  countryCode: String!
-  handicap: Int!
+  communityIds: [Uuid!]
+  countryCode: String
+  emailAddress: String
+  handicap: Int
   name: String!
   playerTypes: [PlayerType!]!
   preferredCourseIds: [Uuid!]!
@@ -790,6 +834,10 @@ input TelephoneNumberInput {
   number: String!
 }
 
+input TimeZoneIdInput {
+  value: String
+}
+
 input UnfollowPlayerInput {
   playerId: Uuid!
 }
@@ -797,6 +845,13 @@ input UnfollowPlayerInput {
 input UpdateCommunityInput {
   communityId: Uuid!
   name: String!
+}
+
+input UpdateCommunityPostInput {
+  body: String
+  communityId: Uuid!
+  imageRefs: [ImageRefInput]
+  postId: Uuid!
 }
 
 input UpdateCourseInput {
@@ -814,10 +869,10 @@ input UpdateGameInput {
   communityIds: [Uuid!]!
   courseId: Uuid!
   gameId: Uuid!
-  gameType: GameType!
+  gameType: GameType
   holes: Holes!
   numberOfPlayers: Int!
-  teeTime: DateTime!
+  teeTime: DateTimeInfoInput!
 }
 
 input UpdatePlayerCoursePreferencesInput {
@@ -835,6 +890,7 @@ input UpdatePlayerHandicapInput {
 
 input UpdatePlayerInput {
   countryCode: String!
+  emailAddress: String
   name: String!
   playerTypes: [PlayerType!]!
   preferredCourseIds: [Uuid!]!
@@ -842,8 +898,15 @@ input UpdatePlayerInput {
   preferredPlayerTypes: [PlayerType!]!
 }
 
+input UpdatePlayerPostInput {
+  body: String
+  imageRefs: [ImageRefInput]
+  postId: Uuid!
+}
+
 input UpdatePlayerPreferencesInput {
   countryCode: String!
+  emailAddress: String
   name: String!
   playerTypes: [PlayerType!]!
 }
@@ -879,6 +942,7 @@ enum Permission {
   CREATEPOSTCOMMENT
   CREATECOMMUNITY
   UPSERTCOURSE
+  MANAGEAUTOASSIGNEDCOMMUNITIES
 }
 
 enum PlayerType {
@@ -886,6 +950,8 @@ enum PlayerType {
   MATCHPLAY
   SOCIAL
   RELAXED
+  CHILL
+  COMPETITIVE
 }
 
 enum ReactionType {

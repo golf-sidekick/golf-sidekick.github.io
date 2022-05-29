@@ -60,7 +60,7 @@ const EditCourseScreen = () => {
       },
       street: {
         value: data?.physicalAddress?.street ?? '',
-        validators: [notNullOrEmpty]
+        validators: []
       },
       suburb: {
         value: data?.physicalAddress?.suburb ?? '',

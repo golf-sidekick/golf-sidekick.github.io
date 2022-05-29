@@ -55,7 +55,7 @@ const AddCourseScreen = () => {
       },
       street: {
         value: '',
-        validators: [notNullOrEmpty]
+        validators: []
       },
       suburb: {
         value: '',
