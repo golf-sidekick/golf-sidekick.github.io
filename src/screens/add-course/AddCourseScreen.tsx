@@ -1,4 +1,4 @@
-import {CourseForm, useCreateCourse} from 'state/courses'
+import {CourseForm, useCreateCourse, useIsUnique} from 'state/courses'
 import {
   DropdownField,
   Form,
@@ -13,7 +13,8 @@ import {
   isNumber,
   notNullOrEmpty,
   numberConverter,
-  useForm
+  useForm,
+  getFieldValue
 } from 'components/forms'
 import {useCallback, useMemo} from 'react'
 import {useCountryDropdownSource, useTimezoneDropdownSource} from 'state'
@@ -100,9 +101,11 @@ const AddCourseScreen = () => {
   const [execute, {loading}] = useCreateCourse()
   const countries = useCountryDropdownSource()
   const timezones = useTimezoneDropdownSource()
+  const name = getFieldValue<string>(form, 'name')
+  const {isUnique, loading: checkingUniqueness} = useIsUnique(name)
 
   const submit = async () => {
-    if (isFormValid(form)) {
+    if (isFormValid(form) && !checkingUniqueness && isUnique) {
       const data = getFormData<CourseForm>(form)
       await execute({
         name: data.name,
@@ -151,6 +154,21 @@ const AddCourseScreen = () => {
             label={'Name'}
             onPlaceChanged={onPlaceChanged}
           />
+          {!isUnique && !checkingUniqueness && (
+            <label className={'alert alert-error mt-3'}>
+              The course name you have chosen already exists
+            </label>
+          )}
+          {isUnique && !checkingUniqueness && name && (
+            <label className={'alert alert-success mt-3'}>
+              The course name is valid
+            </label>
+          )}
+          {checkingUniqueness && (
+            <label className={'alert alert-info mt-3'}>
+              Checking course name, please wait
+            </label>
+          )}
           <TextAreaField
             placeholder={'Supply the course description'}
             form={form}
