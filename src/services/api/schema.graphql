@@ -18,6 +18,7 @@ type Community {
   id: Uuid!
   initials: String
   isAdmin: Boolean!
+  isAutoAssigned: Boolean!
   isMember: Boolean!
   memberCount: Long!
   members(
@@ -213,6 +214,8 @@ type Mutation {
   registerPlayer(input: RegisterPlayerInput): Player @authorize(roles: [])
   registerPlayerFcmToken(input: RegisterPlayerFcmTokenInput): Player
     @authorize(roles: [])
+  removeCourse(input: RemoveCourseInput): Course
+    @authorize(policy: "Permission:UpsertCourse", roles: [])
   removeCourseReaction(input: RemoveReactionInput): Course @authorize(roles: [])
   removeGameReaction(input: RemoveReactionInput): Game @authorize(roles: [])
   reportAbuse(input: ReportAbuseInput): Player @authorize(roles: [])
@@ -496,6 +499,7 @@ type Query @authorize(roles: []) {
     continuationToken: String
     coordinates: CoordinatesInput
     limit: Int! = 64
+    sortBy: String = "Location"
     term: String
   ): PaginatedResultsOfCourse @authorize(roles: [])
   feed(
@@ -801,6 +805,10 @@ input RegisterPlayerInput {
   preferredCourseIds: [Uuid!]!
   preferredGameTypes: [GameType!]!
   preferredPlayerTypes: [PlayerType!]!
+}
+
+input RemoveCourseInput {
+  courseId: Uuid!
 }
 
 input RemoveReactionInput {

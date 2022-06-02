@@ -14,6 +14,7 @@ import {useAuthContext} from 'services/auth'
 import {useCourseSearch} from 'state/courses'
 import {useGetImageSource} from 'state/media'
 import {useGetSelf} from 'state/players'
+import {RemoveCourseButton} from 'components/remove-course-button'
 
 const NavBar = () => {
   const {logout} = useAuthContext()
@@ -117,6 +118,7 @@ const CourseList = () => {
                 <th className={'hidden lg:table-cell'}>Address</th>
                 <th className={'hidden xl:table-cell'}>Timezone</th>
                 <th>&nbsp;</th>
+                <th>&nbsp;</th>
               </tr>
             </thead>
             <tbody>
@@ -138,6 +140,9 @@ const CourseList = () => {
                       onClick={editCourse(course.id)}>
                       Edit
                     </button>
+                  </td>
+                  <td>
+                    <RemoveCourseButton courseId={course.id} />
                   </td>
                 </tr>
               ))}

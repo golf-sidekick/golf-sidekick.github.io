@@ -11,16 +11,29 @@ const CREATE_COURSE = gql`
   }
   ${COURSE_FRAGMENT}
 `
+
+type Response = {
+  createCourse: Course
+}
+
 const useCreateCourse = (): [
   (input: CreateCourseInput) => Promise<string>,
   {loading: boolean}
 ] => {
-  const [execute, {loading}] = useMutation<
-    {
-      createCourse: Course
-    },
-    MutationCreateCourseArgs
-  >(CREATE_COURSE)
+  const [execute, {loading}] = useMutation<Response, MutationCreateCourseArgs>(CREATE_COURSE, {
+    update (cache, {data}) {
+      cache.modify({
+        fields: {
+          courses: (courses = []) => {
+            return {
+              ...courses,
+              data: [...courses.data, data?.createCourse]
+            }
+          }
+        }
+      })
+    }
+  })
 
   const createCourse = async (input: CreateCourseInput) => {
     const result = await execute({

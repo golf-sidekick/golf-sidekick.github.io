@@ -66,6 +66,7 @@ export type Community = {
   id: Scalars['Uuid'];
   initials?: Maybe<Scalars['String']>;
   isAdmin: Scalars['Boolean'];
+  isAutoAssigned: Scalars['Boolean'];
   isMember: Scalars['Boolean'];
   memberCount: Scalars['Long'];
   members?: Maybe<PaginatedResultsOfCommunityMember>;
@@ -465,6 +466,7 @@ export type Mutation = {
   leaveGame?: Maybe<Game>;
   registerPlayer?: Maybe<Player>;
   registerPlayerFcmToken?: Maybe<Player>;
+  removeCourse?: Maybe<Course>;
   removeCourseReaction?: Maybe<Course>;
   removeGameReaction?: Maybe<Game>;
   reportAbuse?: Maybe<Player>;
@@ -658,6 +660,11 @@ export type MutationRegisterPlayerArgs = {
 
 export type MutationRegisterPlayerFcmTokenArgs = {
   input?: Maybe<RegisterPlayerFcmTokenInput>;
+};
+
+
+export type MutationRemoveCourseArgs = {
+  input?: Maybe<RemoveCourseInput>;
 };
 
 
@@ -1137,6 +1144,7 @@ export type QueryCoursesArgs = {
   continuationToken?: Maybe<Scalars['String']>;
   coordinates?: Maybe<CoordinatesInput>;
   limit?: Scalars['Int'];
+  sortBy?: Maybe<Scalars['String']>;
   term?: Maybe<Scalars['String']>;
 };
 
@@ -1220,6 +1228,10 @@ export type RegisterPlayerInput = {
   preferredCourseIds: Array<Scalars['Uuid']>;
   preferredGameTypes: Array<GameType>;
   preferredPlayerTypes: Array<PlayerType>;
+};
+
+export type RemoveCourseInput = {
+  courseId: Scalars['Uuid'];
 };
 
 export type RemoveReactionInput = {

@@ -4,8 +4,8 @@ import {gql, useQuery} from '@apollo/client'
 import {COURSE_FRAGMENT} from './COURSE_FRAGMENT'
 
 const SEARCH_COURSES = gql`
-  query searchCourses($limit: Int!, $continuationToken: String, $term: String) {
-    courses(limit: $limit, continuationToken: $continuationToken, term: $term) {
+  query searchCourses($limit: Int!, $continuationToken: String, $term: String, $sortBy: String) {
+    courses(limit: $limit, continuationToken: $continuationToken, term: $term, sortBy: $sortBy) {
       data {
         ...CourseFragment
       }
@@ -16,10 +16,12 @@ const SEARCH_COURSES = gql`
 `
 
 const defaultArgs = {
-  limit: 50
+  limit: 50,
+  sortBy: 'Alphabetically'
 }
 
 const useCourseSearch = (args: {limit?: number; term?: string}) => {
+
   const {data, networkStatus, refetch, fetchMore} = useQuery<{
     courses: Maybe<PaginatedResultsOfCourse>
   }>(SEARCH_COURSES, {
@@ -27,8 +29,7 @@ const useCourseSearch = (args: {limit?: number; term?: string}) => {
     variables: {
       ...defaultArgs,
       ...args
-    },
-    fetchPolicy: 'cache-and-network'
+    }
   })
 
   const fetchMoreIfMoreExist = () => {
